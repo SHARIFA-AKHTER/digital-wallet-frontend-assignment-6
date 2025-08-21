@@ -17,9 +17,11 @@ export interface LoginReq {
 }
 
 export interface LoginRes {
+  data: any;
   accessToken: string;
   refreshToken?: string;
   user: IUser;
+  success: true;
 }
 
 export interface RegisterReq {

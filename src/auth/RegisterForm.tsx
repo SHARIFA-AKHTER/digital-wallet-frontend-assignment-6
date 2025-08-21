@@ -66,6 +66,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
           <select id="role" {...register("role")} className="w-full border rounded px-3 py-2">
             <option value="USER">User</option>
             <option value="AGENT">Agent</option>
+            <option value="ADMIN">Admin</option>
           </select>
           {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
         </div>

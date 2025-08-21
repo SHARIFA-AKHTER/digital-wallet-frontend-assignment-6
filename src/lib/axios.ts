@@ -1,18 +1,22 @@
+// src/lib/axios.ts
 import axios from "axios";
 
-// Base Axios instance
+// ✅ Base URL fallback
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
+console.log("Axios Base URL:", BASE_URL);
+// Create Axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1",
-  withCredentials: true, 
+  baseURL: BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Request Interceptor
+// ✅ Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken"); 
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -21,12 +25,12 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor
+// ✅ Response Interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Unauthorized
     if (error.response?.status === 401) {
-
       localStorage.removeItem("accessToken");
       window.location.href = "/login";
     }
