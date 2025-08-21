@@ -26,3 +26,21 @@ export interface SystemSettings {
   maxLimit: number;       
   minLimit: number;       
 }
+export interface IAgent {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  status: "pending" | "approved" | "suspended";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IAgentListResponse {
+  data: IAgent[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+  };
+}

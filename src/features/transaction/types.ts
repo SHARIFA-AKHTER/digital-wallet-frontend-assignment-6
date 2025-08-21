@@ -33,3 +33,21 @@ export interface PaginatedRes<T> {
     total: number;
   };
 }
+export interface ITransaction {
+  _id: string;
+  type: "add-money" | "withdraw" | "send-money";
+  amount: number;
+  status: "pending" | "success" | "failed";
+  sender?: string;
+  receiver?: string;
+  createdAt: string;
+}
+
+export interface ITransactionListResponse {
+  data: ITransaction[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+  };
+}

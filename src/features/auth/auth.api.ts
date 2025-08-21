@@ -2,6 +2,7 @@
 import { baseApi } from "../../redux/api/baseApi";
 import type { LoginReq, LoginRes, MeRes, RegisterReq } from "./types";
 
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<LoginRes, LoginReq>({
