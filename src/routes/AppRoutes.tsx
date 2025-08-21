@@ -74,14 +74,21 @@
 // export default AppRoutes;
 
 
+// src/AppRoutes.tsx
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+
+import Home from "@/pages/public/Home";
 import About from "@/pages/public/About";
 import Features from "@/pages/public/Features";
 import Contact from "@/pages/public/Contact";
-import Home from "@/pages/public/Home";
 import Pricing from "@/pages/public/Pricing";
 import FAQ from "@/pages/public/FAQ";
+import Login from "@/auth/Login";
+import Register from "@/auth/Register";
+import { PrivateRoute } from "./ProtectedRoute";
+
 
 
 
@@ -90,49 +97,34 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* 🔓 Public Layout */}
-      <Route
-       path="/"
-      element={<MainLayout />}
-      
-      >
+      <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/faq" element={<FAQ />} />
-       
-       <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-           
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/unauthorized" element={<Unauthorized />} /> */}
-
-        {/* Optional Public Wallet/Transaction Pages */}
-        {/* <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/transactions" element={<TransactionList />} /> */}
       </Route>
 
       {/* 🔒 USER DASHBOARD */}
-      {/* <Route
+      <Route
         path="/dashboard/user"
         element={
-          <PrivateRoute>
-            <RoleGuard allowedRoles={["USER"]}>
-              <DashboardLayout />
-            </RoleGuard>
+          <PrivateRoute allowedRoles={["user"]}>
+            <DashboardLayout />
           </PrivateRoute>
         }
       >
-        <Route index element={<UserDashboard />} />
+        {/* Nested Routes inside DashboardLayout */}
+        {/* <Route index element={<UserDashboard />} />
         <Route path="wallet" element={<WalletPage />} />
-        <Route path="transactions" element={<TransactionList />} />
-      </Route> */}
-
-
+        <Route path="transactions" element={<TransactionList />} /> */}
+      </Route>
     </Routes>
   );
 };
 
 export default AppRoutes;
+

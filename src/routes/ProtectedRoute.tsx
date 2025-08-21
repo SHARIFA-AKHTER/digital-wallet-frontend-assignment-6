@@ -16,22 +16,23 @@
 
 // export default PrivateRoute;
 
-// src/components/common/Protected.tsx
-import { Navigate, useLocation } from "react-router-dom";
-import { useAppSelector } from "@/app/store";
+import { Navigate } from "react-router-dom";
+import { useUserRole } from "@/hooks/useUserRole";
+import type { JSX } from "react";
 
-type Props = { children: React.ReactNode; allow?: Array<"USER"|"AGENT"|"ADMIN"> };
+type ProtectedRouteProps = {
+  children: JSX.Element;
+  allowedRoles: Array<"user" | "agent" | "admin">;
+};
 
-export default function Protected({ children, allow }: Props) {
-  const { user, accessToken } = useAppSelector(s => s.auth);
-  const location = useLocation();
+export const PrivateRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
+  const { role } = useUserRole();
 
-  if (!accessToken) return <Navigate to="/login" state={{from: location}} replace />;
-
-  if (allow && user?.role && !allow.includes(user.role)) {
-    // role mismatch → redirect to own dashboard root
-    const target = `/dashboard/${user.role.toLowerCase()}`;
-    return <Navigate to={target} replace />;
+  if (!allowedRoles.includes(role)) {
+   
+    return <Navigate to="/login" replace />;
   }
-  return <>{children}</>;
-}
+
+  return children;
+};
+

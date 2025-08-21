@@ -1,31 +1,177 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
-import { Link } from "react-router"
+
+
+// import { useNavigate } from "react-router-dom";
+// import { useState } from "react";
+// import { Button } from "@/components/ui/button";
+// import { Menu, X } from "lucide-react";
+// import { Link } from "react-router-dom";
+// import { useUserRole } from "@/hooks/useUserRole";
+// import Logo from "@/assets/Logo/wallet logo.jpg";
+
+// export default function Navbar() {
+//   const [open, setOpen] = useState(false);
+//   const { role } = useUserRole();
+//   const navigate = useNavigate();
+
+//   const goToDashboard = () => {
+//     if (role === "USER") navigate("/dashboard/user");
+//     else if (role === "AGENT") navigate("/dashboard/agent");
+//     else if (role === "ADMIN") navigate("/dashboard/admin");
+//     else navigate("/login");
+//   };
+
+//   return (
+//     <header className="w-full sticky top-0 z-50 bg-white border-b shadow-sm dark:bg-gray-900">
+//       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+//         <div className="flex items-center gap-2">
+//           <img
+//             src={Logo}
+//             alt="Wallet Logo"
+//             className="w-8 h-8 md:w-10 md:h-10 object-cover"
+//           />
+//           <Link
+//             to="/"
+//             className="text-lg sm:text-xl md:text-2xl font-bold text-primary"
+//           >
+//             Digital Wallet
+//           </Link>
+//         </div>
+
+//         {/* Desktop Menu */}
+//         <nav className="hidden md:flex space-x-6 text-gray-700 dark:text-gray-200">
+//           <Link to="/">Home</Link>
+//           <Link to="/about">About</Link>
+//           <Link to="/features">Features</Link>
+//           <Link to="/contact">Contact</Link>
+//           <Link to="/pricing">Pricing</Link>
+//           <Link to="/faq">FAQ</Link>
+
+//           {/* Dashboard Button */}
+//           <button
+//             onClick={goToDashboard}
+//             className="font-semibold text-indigo-600 hover:text-indigo-800"
+//           >
+//             Dashboard
+//           </button>
+//         </nav>
+
+//         {/* Right Buttons */}
+//         <div className="hidden md:flex space-x-3">
+//           <Button asChild variant="outline">
+//             <Link to="/login">Login</Link>
+//           </Button>
+//           <Button asChild>
+//             <Link to="/register">Register</Link>
+//           </Button>
+//         </div>
+
+//         {/* Mobile Menu Button */}
+//         <button
+//           onClick={() => setOpen(!open)}
+//           className="md:hidden text-gray-700 dark:text-gray-200"
+//         >
+//           {open ? <X size={28} /> : <Menu size={28} />}
+//         </button>
+//       </div>
+
+//       {/* Mobile Dropdown */}
+//       {open && (
+//         <div className="md:hidden bg-white dark:bg-gray-800 border-t shadow-sm">
+//           <nav className="flex flex-col space-y-2 px-4 py-4 text-gray-700 dark:text-gray-200">
+//             <Link to="/" onClick={() => setOpen(false)}>
+//               Home
+//             </Link>
+//             <Link to="/about" onClick={() => setOpen(false)}>
+//               About
+//             </Link>
+//             <Link to="/features" onClick={() => setOpen(false)}>
+//               Features
+//             </Link>
+//             <Link to="/contact" onClick={() => setOpen(false)}>
+//               Contact
+//             </Link>
+//             <button
+//               onClick={() => {
+//                 goToDashboard();
+//                 setOpen(false);
+//               }}
+//               className="font-semibold text-indigo-600 hover:text-indigo-800"
+//             >
+//               Dashboard
+//             </button>
+
+//             <div className="flex flex-col gap-2 mt-3">
+//               <Button asChild variant="outline">
+//                 <Link to="/login">Login</Link>
+//               </Button>
+//               <Button asChild>
+//                 <Link to="/register">Register</Link>
+//               </Button>
+//             </div>
+//           </nav>
+//         </div>
+//       )}
+//     </header>
+//   );
+// }
+
+
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useUserRole } from "@/hooks/useUserRole";
+import Logo from "@/assets/Logo/wallet logo.jpg";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const { role } = useUserRole();
+  const navigate = useNavigate();
+
+  const goToDashboard = () => {
+    if (role === "USER") navigate("/dashboard/user");
+    else if (role === "AGENT") navigate("/dashboard/agent");
+    else if (role === "ADMIN") navigate("/dashboard/admin");
+    else navigate("/login");
+  };
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white border-b shadow-sm dark:bg-gray-900">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
-        {/* Logo */}
-        <Link to="/" className="text-xl md:text-2xl font-bold text-primary">
-          Digital Wallet
-        </Link>
+        {/* Logo & Title */}
+        <div className="flex items-center gap-2">
+          <img
+            src={Logo}
+            alt="Wallet Logo"
+            className="w-8 h-8 md:w-10 md:h-10 object-cover"
+          />
+          <Link
+            to="/"
+            className="text-lg sm:text-xl md:text-2xl font-bold text-primary"
+          >
+            Digital Wallet
+          </Link>
+        </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex space-x-6 text-gray-700 dark:text-gray-200">
+        <nav className="hidden lg:flex space-x-6 text-gray-700 dark:text-gray-200">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
           <Link to="/features">Features</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/pricing">Pricing</Link>
-          <Link to="faq">FAQ</Link>
+          <Link to="/faq">FAQ</Link>
+          <button
+            onClick={goToDashboard}
+            className="font-semibold text-indigo-600 hover:text-indigo-800"
+          >
+            Dashboard
+          </button>
         </nav>
 
-        {/* Right Buttons (Login/Register) */}
-        <div className="hidden md:flex space-x-3">
+        {/* Right Buttons (Desktop) */}
+        <div className="hidden lg:flex space-x-3">
           <Button asChild variant="outline">
             <Link to="/login">Login</Link>
           </Button>
@@ -34,23 +180,35 @@ export default function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile/Tablet Menu Button */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden text-gray-700 dark:text-gray-200"
+          className="lg:hidden text-gray-700 dark:text-gray-200"
         >
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile/Tablet Dropdown */}
       {open && (
-        <div className="md:hidden bg-white dark:bg-gray-800 border-t shadow-sm">
+        <div className="lg:hidden bg-white dark:bg-gray-800 border-t shadow-sm">
           <nav className="flex flex-col space-y-2 px-4 py-4 text-gray-700 dark:text-gray-200">
             <Link to="/" onClick={() => setOpen(false)}>Home</Link>
             <Link to="/about" onClick={() => setOpen(false)}>About</Link>
             <Link to="/features" onClick={() => setOpen(false)}>Features</Link>
             <Link to="/contact" onClick={() => setOpen(false)}>Contact</Link>
+            <Link to="/pricing" onClick={() => setOpen(false)}>Pricing</Link>
+            <Link to="/faq" onClick={() => setOpen(false)}>FAQ</Link>
+            <button
+              onClick={() => {
+                goToDashboard();
+                setOpen(false);
+              }}
+              className="font-semibold text-indigo-600 hover:text-indigo-800"
+            >
+              Dashboard
+            </button>
+
             <div className="flex flex-col gap-2 mt-3">
               <Button asChild variant="outline">
                 <Link to="/login">Login</Link>
@@ -63,5 +221,5 @@ export default function Navbar() {
         </div>
       )}
     </header>
-  )
+  );
 }
