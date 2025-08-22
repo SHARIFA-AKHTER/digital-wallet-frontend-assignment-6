@@ -1,78 +1,56 @@
-// /* eslint-disable react-hooks/exhaustive-deps */
-
-// import {
-//   createContext,
-//   useContext,
-//   useState,
-//   useEffect,
-//   type ReactNode,
-// } from "react";
-// import useAuthAxios from "@/hooks/useAuthAxios";
-// import type { IWallet } from "@/types/wallet";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { createContext, useContext, type ReactNode } from "react";
+// import { 
+//   useGetMyWalletQuery, 
+//   useAddMoneyMutation, 
+//   useWithdrawMoneyMutation, 
+//   useSendMoneyMutation 
+// } from "@/features/wallet/wallet.api";
 
 // interface WalletContextType {
 //   balance: number;
+//   transactions: any[];
+//   loading: boolean;
 //   addMoney: (amount: number) => Promise<void>;
 //   withdrawMoney: (amount: number) => Promise<void>;
-//   refreshBalance: () => Promise<void>;
+//   sendMoney: (amount: number, to: string) => Promise<void>;
 // }
 
-// const WalletContext = createContext<WalletContextType | undefined>(undefined);
+// const WalletContext = createContext<WalletContextType | null>(null);
 
 // export const WalletProvider = ({ children }: { children: ReactNode }) => {
-//   const [balance, setBalance] = useState<number>(0);
-//   const axiosSecure = useAuthAxios();
-
-//   const fetchBalance = async () => {
-//     try {
-//       const res = await axiosSecure.get<{ success: boolean; data: IWallet }>(
-//         "/wallet/me"
-//       );
-//       if (res.data.success) {
-//         setBalance(res.data.data.balance);
-//       }
-//     } catch (error) {
-//       console.error("🔴 Failed to fetch balance:", error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchBalance();
-//   }, []);
+//   // ✅ RTK Query automatically fetches and caches
+//   const { data, isLoading, refetch } = useGetMyWalletQuery(undefined, { refetchOnMountOrArgChange: true });
+//   const [addMoneyMutation] = useAddMoneyMutation();
+//   const [withdrawMoneyMutation] = useWithdrawMoneyMutation();
+//   const [sendMoneyMutation] = useSendMoneyMutation();
 
 //   const addMoney = async (amount: number) => {
-//     try {
-//       const res = await axiosSecure.post<{ success: boolean; data: IWallet }>(
-//         "/wallet/add",
-//         { amount }
-//       );
-//       if (res.data.success) {
-//         setBalance(res.data.data.balance);
-//       }
-//     } catch (error) {
-//       console.error("🔴 Add money failed:", error);
-//       throw error;
-//     }
+//     await addMoneyMutation({ amount }).unwrap();
+//     refetch(); // only refetch once, no useEffect
 //   };
 
 //   const withdrawMoney = async (amount: number) => {
-//     try {
-//       const res = await axiosSecure.post<{ success: boolean; data: IWallet }>(
-//         "/wallet/withdraw",
-//         { amount }
-//       );
-//       if (res.data.success) {
-//         setBalance(res.data.data.balance);
-//       }
-//     } catch (error) {
-//       console.error("🔴 Withdraw failed:", error);
-//       throw error;
-//     }
+//     await withdrawMoneyMutation({ amount }).unwrap();
+//     refetch();
+//   };
+
+//   const sendMoney = async (amount: number, to: string) => {
+//     await sendMoneyMutation({ amount, to }).unwrap();
+//     refetch();
 //   };
 
 //   return (
 //     <WalletContext.Provider
-//       value={{ balance, addMoney, withdrawMoney, refreshBalance: fetchBalance }}
+//       value={{
+//         balance: data?.data.balance || 0,
+//         transactions: data?.data.transactions || [],
+//         loading: isLoading,
+//         addMoney,
+//         withdrawMoney,
+//         sendMoney,
+//       }}
 //     >
 //       {children}
 //     </WalletContext.Provider>
@@ -86,14 +64,37 @@
 //   return context;
 // };
 
+// src/Context/WalletContext.tsx
+import { createContext, useContext, type ReactNode } from "react";
+import { useGetMyWalletQuery } from "@/features/wallet/wallet.api";
 
+interface WalletContextType {
+  balance: number;
+  isLoading: boolean;
+  error: any;
+}
 
-const WalletContext = () => {
-    return (
-        <div>
-            Hello
-        </div>
-    );
+const WalletContext = createContext<WalletContextType | null>(null);
+
+export const WalletProvider = ({ children }: { children: ReactNode }) => {
+  const { data, isLoading, error } = useGetMyWalletQuery();
+
+  return (
+    <WalletContext.Provider
+      value={{
+        balance: data?.data.balance || 0,
+        isLoading,
+        error,
+      }}
+    >
+      {children}
+    </WalletContext.Provider>
+  );
 };
 
-export default WalletContext;
+// eslint-disable-next-line react-refresh/only-export-components
+export const useWallet = () => {
+  const context = useContext(WalletContext);
+  if (!context) throw new Error("useWallet must be used within WalletProvider");
+  return context;
+};

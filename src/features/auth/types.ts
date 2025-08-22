@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type TRole = "USER" | "AGENT" | "ADMIN";
 
 export interface IUser {
@@ -17,6 +18,7 @@ export interface LoginReq {
 }
 
 export interface LoginRes {
+  token: any;
   data: any;
   accessToken: string;
   refreshToken?: string;
@@ -29,7 +31,7 @@ export interface RegisterReq {
   email: string;
   phone: string;
   password: string;
-  role: "USER" | "AGENT";
+  role:  "USER" | "AGENT" | "ADMIN";
 }
 
 export interface MeRes {

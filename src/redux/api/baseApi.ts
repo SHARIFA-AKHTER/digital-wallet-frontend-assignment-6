@@ -12,20 +12,30 @@
 // })
 
 
-import { getToken } from "@/utils/token";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// import { getToken } from "@/utils/token";
+// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+
+// export const baseApi = createApi({
+//   reducerPath: "api",
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: import.meta.env.VITE_API_URL,
+//     prepareHeaders: (headers) => {
+//       const token = getToken();
+//       if (token) headers.set("authorization", `Bearer ${token}`);
+//       return headers;
+//     },
+//   }),
+//   tagTypes: ["AUTH","WALLET","TRANSACTION","USER","AGENT", "ADMIN"],
+//   endpoints: () => ({}),
+// });
+
+// src/redux/api/baseApi.ts
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { axiosBaseQuery } from "./axiosBaseQuery";
 
 export const baseApi = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-    prepareHeaders: (headers) => {
-      const token = getToken();
-      if (token) headers.set("authorization", `Bearer ${token}`);
-      return headers;
-    },
-  }),
-  tagTypes: ["Auth","Wallet","Transaction","User","Agent"],
+  baseQuery: axiosBaseQuery(),
+  tagTypes: ["AUTH","WALLET","TRANSACTION","USER","AGENT", "ADMIN"], // or other tags you use
   endpoints: () => ({}),
 });
