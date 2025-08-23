@@ -7,15 +7,15 @@ export const agentsApi = baseApi.injectEndpoints({
     agentOverview: build.query<any, void>({ query: () => "/agent/overview" }),
     addMoneyToUser: build.mutation<{message:string}, {userId:string; amount:number}>({
       query: (body) => ({ url: "/agent/add-money", method: "POST", body }),
-      invalidatesTags: ["Wallet","Transaction"],
+      invalidatesTags: ["WALLET","TRANSACTION"],
     }),
     withdrawFromUser: build.mutation<{message:string}, {userId:string; amount:number}>({
       query: (body) => ({ url: "/agent/withdraw-user", method: "POST", body }),
-      invalidatesTags: ["Wallet","Transaction"],
+      invalidatesTags: ["WALLET","TRANSACTION"],
     }),
     agentTransactions: build.query<any, {page?:number;limit?:number}>({
       query: (params) => ({ url: "/agent/transactions", params }),
-      providesTags: ["Transaction"],
+      providesTags: ["TRANSACTION"],
     }),
   }),
 });

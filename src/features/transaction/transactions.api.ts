@@ -38,7 +38,7 @@ export const transactionApi = baseApi.injectEndpoints({
     // ✅ Withdraw money
     withdraw: build.mutation<{ success: boolean; balance: number }, { amount: number }>({
       query: (body) => ({
-        url: "/transactions/cash-out",
+        url: "transactions/cash-out",
         method: "POST",
         body,
       }),

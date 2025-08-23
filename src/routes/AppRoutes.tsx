@@ -19,6 +19,7 @@ import Unauthorized from "@/auth/Unauthorized";
 import SendMoneyPage from "@/pages/public/SendMoneyPage";
 import TransactionList from "@/transactions/TransactionList";
 import Profile from "@/pages/public/Profile";
+import AgentDashboard from "@/dashboard/AgentDashboard";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -54,6 +55,25 @@ const AppRoutes = () => {
 
         <Route path="transactions" element={<TransactionList />} />
         <Route path="profile" element={<Profile />} />
+      </Route>
+
+        {/* 🔒 AGENT DASHBOARD */}
+      <Route
+        path="/dashboard/agent"
+        element={
+          <PrivateRoute>
+            <RoleGuard allowedRoles={["AGENT"]}>
+              <DashboardLayout />
+            </RoleGuard>
+          </PrivateRoute>
+        }
+      >
+        <Route index element={<AgentDashboard />} />
+         <Route path="wallet" element={<WalletPage />} />
+        <Route path="transactions" element={<TransactionList />} />
+         {/* <Route path="agent-commission" element={<AgentCommission />} /> */}
+        <Route path="profile" element={<Profile />} />
+       
       </Route>
     </Routes>
   );

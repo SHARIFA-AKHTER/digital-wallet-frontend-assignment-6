@@ -84,6 +84,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION", "WALLET"],
     }),
+      cashOut: build.mutation<any, { amount: number }>({
+      query: (body) => ({
+        url: "/transactions/cash-out",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["TRANSACTION", "WALLET"],
+    }),
   }),
 });
 
@@ -93,4 +101,5 @@ export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
    useCashInMutation,
+   useCashOutMutation,
 } = userApi;
