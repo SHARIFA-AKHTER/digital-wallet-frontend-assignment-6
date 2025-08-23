@@ -55,6 +55,11 @@ const Sidebar = () => {
                   </NavLink>
                 </li>
                 <li>
+                  <NavLink to="/dashboard/user/send-money" className={linkClass}>
+                    💸 Send Money({walletData?.balance || 0})
+                  </NavLink>
+                </li>
+                <li>
                   <NavLink to="/dashboard/user/transactions" className={linkClass}>
                     📄 Transactions
                   </NavLink>

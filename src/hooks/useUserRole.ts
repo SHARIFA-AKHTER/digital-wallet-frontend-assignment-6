@@ -22,5 +22,7 @@ export const useUserRole = () => {
     isUser: user?.role === "USER",
     isAdmin: user?.role === "ADMIN",
     isAgent: user?.role === "AGENT",
+
   };
+  
 };

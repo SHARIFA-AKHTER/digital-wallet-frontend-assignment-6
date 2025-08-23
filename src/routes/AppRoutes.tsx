@@ -89,6 +89,8 @@ import RoleGuard from "@/routes/RoleGuard";
 import UserDashboard from "@/dashboard/UserDashboard";
 import WalletPage from "@/pages/public/WalletPage";
 import Unauthorized from "@/auth/Unauthorized";
+import SendMoneyPage from "@/pages/public/SendMoneyPage";
+import TransactionList from "@/transactions/TransactionList";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -110,7 +112,7 @@ const AppRoutes = () => {
         path="/dashboard/user"
         element={
           <PrivateRoute>
-            <RoleGuard allowedRoles={["USER"]}>
+            <RoleGuard allowedRoles={["USER", "ADMIN", "AGENT"]}>
               <DashboardLayout />
             </RoleGuard>
           </PrivateRoute>
@@ -120,7 +122,9 @@ const AppRoutes = () => {
 
         <Route index element={<UserDashboard />} />
         <Route path="wallet" element={<WalletPage />} />
-        {/* <Route path="transactions" element={<TransactionList />} /> */}
+        <Route path="send-money" element={<SendMoneyPage />} />
+
+        <Route path="transactions" element={<TransactionList />} />
       </Route>
     </Routes>
   );

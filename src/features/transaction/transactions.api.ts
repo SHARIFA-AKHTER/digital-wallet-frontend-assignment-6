@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/api/baseApi";
+import type { Transaction } from "./types";
 
-
-export type TxFilters = { page?:number; limit?:number; type?:string; from?:string; to?:string; min?:number; max?:number; q?:string };
-
-export const transactionsApi = baseApi.injectEndpoints({
+export const transactionApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    transactions: build.query<{data:any[]; meta:{page:number; limit:number; total:number}}, TxFilters>({
-      query: (params) => ({ url: "/transactions", params }),
-      providesTags: ["Transaction"],
+    getTransactions: build.query<Transaction[], void>({
+      query: () => "/transactions", 
+      providesTags: ["TRANSACTION"], 
     }),
   }),
 });
-export const { useTransactionsQuery } = transactionsApi;
+
+export const { useGetTransactionsQuery } = transactionApi;

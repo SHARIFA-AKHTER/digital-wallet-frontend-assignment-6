@@ -2,15 +2,17 @@ export type TransactionType = "DEPOSIT" | "WITHDRAW" | "TRANSFER";
 export type TransactionStatus = "PENDING" | "SUCCESS" | "FAILED";
 
 export interface Transaction {
-  id: string;
-  type: TransactionType;
+ _id: string;
+  wallet: string;
+  type: "cashIn" | "cashOut";
   amount: number;
-  from?: string; // userId/email
-  to?: string;   // userId/email
-  status: TransactionStatus;
+  fee: number;
+  commission: number;
+  status: string;
+  fromUser: string;
+  toUser: string;
   createdAt: string;
-  updatedAt?: string;
-  handledByAgent?: string; // agentId
+  updatedAt: string;
 }
 
 export interface TransactionFilters {
@@ -34,6 +36,8 @@ export interface PaginatedRes<T> {
   };
 }
 export interface ITransaction {
+  toUser: string;
+  fromUser: string;
   _id: string;
   type: "add-money" | "withdraw" | "send-money";
   amount: number;
