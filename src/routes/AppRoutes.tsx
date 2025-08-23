@@ -22,6 +22,9 @@ import Profile from "@/pages/public/Profile";
 import AgentDashboard from "@/dashboard/AgentDashboard";
 import AgentCommission from "@/features/agent/AgentCommission";
 import AdminDashboard from "@/dashboard/AdminDashboard";
+import ManageUsers from "@/features/admin/component/ManageUsers";
+import ManageAgents from "@/features/admin/component/ManageAgents";
+import Transactions from "@/features/admin/component/Transactions";
 const AppRoutes = () => {
   return (
     <Routes>
