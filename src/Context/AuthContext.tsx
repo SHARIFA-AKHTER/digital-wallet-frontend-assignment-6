@@ -66,6 +66,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+    setAuthUser: React.Dispatch<React.SetStateAction<User | null>>;
   login: (data: { token: string; user: Omit<User, "token"> }) => void;
   logout: () => void;
   isAuthenticated: boolean;

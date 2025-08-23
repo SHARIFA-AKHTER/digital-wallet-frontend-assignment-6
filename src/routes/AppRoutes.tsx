@@ -1,77 +1,4 @@
-// import MainLayout from "@/components/layout/MainLayout";
-// import { Route, Routes } from "react-router-dom";
 
-// const AppRoutes = () => {
-//   return (
-//     <Routes>
-//       {/* 🔓 Public Layout */}
-//       <Route element={<MainLayout />}>
-//         {/* <Route path="/" element={<Home />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route path="/register" element={<Register />} />
-//         <Route path="/unauthorized" element={<Unauthorized />} /> */}
-//         {/* <Route path="/wallet" element={<WalletPage />} />
-//         <Route path="/transactions" element={<TransactionList />} /> */}
-//       </Route>
-
-//       {/* 🔒 USER DASHBOARD */}
-//       {/* <Route
-//         path="/dashboard/user"
-//         element={
-//           <PrivateRoute>
-//             <RoleGuard allowedRoles={["USER"]}>
-//               <DashboardLayout />
-//             </RoleGuard>
-//           </PrivateRoute>
-//         }
-//       >
-//         <Route index element={<UserDashboard />} />
-//         <Route path="wallet" element={<WalletPage />} />
-//         <Route path="transactions" element={<TransactionList />} />
-//       </Route> */}
-
-//       {/* 🔒 ADMIN DASHBOARD */}
-//       {/* <Route
-//         path="/dashboard/admin"
-//         element={
-//           <PrivateRoute>
-//             <RoleGuard allowedRoles={["ADMIN"]}>
-//               <DashboardLayout />
-//             </RoleGuard>
-//           </PrivateRoute>
-//         }
-//       >
-//         <Route index element={<AdminDashboard />} />
-//         <Route path="wallet" element={<WalletPage />} />
-//         <Route path="transactions" element={<TransactionList />} />
-//         <Route path="users" element={<UserList />} />
-//         <Route path="settings" element={<SettingsPage />} />
-//         <Route path="agent-approval" element={<AgentApproval />} />
-//       </Route> */}
-
-//       {/* 🔒 AGENT DASHBOARD */}
-//       {/* <Route
-//         path="/dashboard/agent"
-//         element={
-//           <PrivateRoute>
-//             <RoleGuard allowedRoles={["AGENT"]}>
-//               <DashboardLayout />
-//             </RoleGuard>
-//           </PrivateRoute>
-//         }
-//       >
-//         <Route index element={<AgentDashboard />} />
-//         <Route path="wallet" element={<WalletPage />} />
-//         <Route path="transactions" element={<TransactionList />} />
-//         <Route path="agent-commission" element={<AgentCommission />} />
-//       </Route> */}
-//     </Routes>
-//   );
-// };
-
-// export default AppRoutes;
-
-// src/AppRoutes.tsx
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -91,6 +18,7 @@ import WalletPage from "@/pages/public/WalletPage";
 import Unauthorized from "@/auth/Unauthorized";
 import SendMoneyPage from "@/pages/public/SendMoneyPage";
 import TransactionList from "@/transactions/TransactionList";
+import Profile from "@/pages/public/Profile";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -125,6 +53,7 @@ const AppRoutes = () => {
         <Route path="send-money" element={<SendMoneyPage />} />
 
         <Route path="transactions" element={<TransactionList />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </Routes>
   );

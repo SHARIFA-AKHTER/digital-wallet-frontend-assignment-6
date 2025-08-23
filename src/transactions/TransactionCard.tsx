@@ -30,3 +30,4 @@ const TransactionCard = ({
 };
 
 export default TransactionCard;
+

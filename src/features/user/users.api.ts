@@ -25,18 +25,72 @@ import { baseApi } from "@/redux/api/baseApi";
 
 
 
+// export const userApi = baseApi.injectEndpoints({
+//   endpoints: (build) => ({
+//     getWallet: build.query<{ balance: number }, void>({
+//       query: () => "/user/wallet",
+//       providesTags: ["WALLET"],
+//     }),
+//     getTransactions: build.query<any[], void>({
+//       query: () => "/user/transactions",
+//       providesTags: ["TRANSACTION"],
+//     }),
+
+    
+//   }),
+// });
+
+// export const { useGetWalletQuery, useGetTransactionsQuery } = userApi;
+
+
+type UserProfile = {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  photo?: string;
+};
+
 export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getWallet: build.query<{ balance: number }, void>({
       query: () => "/user/wallet",
-      providesTags: ["Wallet"],
+      providesTags: ["WALLET"],
     }),
+
     getTransactions: build.query<any[], void>({
       query: () => "/user/transactions",
-      providesTags: ["Transaction"],
+      providesTags: ["TRANSACTION"],
+    }),
+
+    getProfile: build.query<UserProfile, void>({
+      query: () => "/users",
+      providesTags: ["USER"],
+    }),
+
+    updateProfile: build.mutation<{ success: boolean; data: UserProfile }, Partial<UserProfile>>({
+      query: (body) => ({
+        url: "/users/update-profile",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+      cashIn: build.mutation<any, { amount: number }>({
+      query: (body) => ({
+        url: "/transactions/cash-in",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["TRANSACTION", "WALLET"],
     }),
   }),
 });
 
-export const { useGetWalletQuery, useGetTransactionsQuery } = userApi;
-
+export const {
+  useGetWalletQuery,
+  useGetTransactionsQuery,
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+   useCashInMutation,
+} = userApi;

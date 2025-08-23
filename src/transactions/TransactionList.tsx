@@ -69,15 +69,14 @@ const TransactionList = () => {
 
       {/* Desktop table view */}
       <div className="hidden lg:block overflow-x-auto mt-6">
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">user
           <thead className="bg-indigo-100 text-gray-800">
             <tr>
               <th className="py-3 px-5 text-left">Type</th>
               <th className="py-3 px-5 text-left">Amount</th>
               <th className="py-3 px-5 text-left">Status</th>
               <th className="py-3 px-5 text-left">Sender</th>
-              <th className="py-3 px-5 text-left">Receiver</th>
-              <th className="py-3 px-5 text-left">Date</th>
+
             </tr>
           </thead>
           <tbody className="text-gray-700">
@@ -145,47 +144,4 @@ const capitalizeStatus = (status: string): "Pending" | "Completed" | "Reversed" 
 
 export default TransactionList;
 
-
-// export default function TransactionList() {
-//   const { data: transactions, isLoading, error } = useGetTransactionsQuery();
-
-//   if (isLoading) return <p>Loading transactions...</p>;
-//   if (error) return <p>Error loading transactions</p>;
-
-//   return (
-//     <div className="p-6 max-w-5xl mx-auto">
-//       <h2 className="text-2xl font-bold mb-4">Transactions</h2>
-//       <div className="overflow-x-auto">
-//         <table className="min-w-full border border-gray-200 rounded-lg">
-//           <thead className="bg-gray-100">
-//             <tr>
-//               <th className="px-4 py-2 text-left">Type</th>
-//               <th className="px-4 py-2 text-left">Amount</th>
-//               <th className="px-4 py-2 text-left">Fee</th>
-//               <th className="px-4 py-2 text-left">Commission</th>
-//               <th className="px-4 py-2 text-left">From</th>
-//               <th className="px-4 py-2 text-left">To</th>
-//               <th className="px-4 py-2 text-left">Status</th>
-//               <th className="px-4 py-2 text-left">Date</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {transactions?.map((tx) => (
-//               <tr key={tx._id} className="border-t">
-//                 <td className="px-4 py-2">{tx.type}</td>
-//                 <td className="px-4 py-2">${tx.amount}</td>
-//                 <td className="px-4 py-2">${tx.fee}</td>
-//                 <td className="px-4 py-2">${tx.commission}</td>
-//                 <td className="px-4 py-2">{tx.fromUser}</td>
-//                 <td className="px-4 py-2">{tx.toUser}</td>
-//                 <td className="px-4 py-2">{tx.status}</td>
-//                 <td className="px-4 py-2">{new Date(tx.createdAt).toLocaleString()}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
 
