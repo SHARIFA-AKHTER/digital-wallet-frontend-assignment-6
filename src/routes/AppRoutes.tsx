@@ -20,6 +20,7 @@ import SendMoneyPage from "@/pages/public/SendMoneyPage";
 import TransactionList from "@/transactions/TransactionList";
 import Profile from "@/pages/public/Profile";
 import AgentDashboard from "@/dashboard/AgentDashboard";
+import AgentCommission from "@/features/agent/AgentCommission";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -71,7 +72,7 @@ const AppRoutes = () => {
         <Route index element={<AgentDashboard />} />
          <Route path="wallet" element={<WalletPage />} />
         <Route path="transactions" element={<TransactionList />} />
-         {/* <Route path="agent-commission" element={<AgentCommission />} /> */}
+         <Route path="agent-commission" element={<AgentCommission />} />
         <Route path="profile" element={<Profile />} />
        
       </Route>

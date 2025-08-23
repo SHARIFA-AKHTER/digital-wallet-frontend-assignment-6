@@ -23,3 +23,4 @@ export interface AgentTransaction {
   type: "ADD_MONEY" | "WITHDRAW_USER";
   createdAt: string;
 }
+

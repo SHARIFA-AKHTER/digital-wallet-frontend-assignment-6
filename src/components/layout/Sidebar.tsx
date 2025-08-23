@@ -128,6 +128,11 @@ const Sidebar = () => {
                     📈 Commission
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to="/dashboard/user/profile" className={linkClass}>
+                          👤 Profile Management
+                  </NavLink>
+                </li>
               </>
             )}
           </ul>
