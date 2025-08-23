@@ -44,6 +44,7 @@ export interface AdminTransaction extends Omit<Transaction, "fee"> {
 }
 // ================== System Settings ==================
 export interface SystemSettings {
+  data: any;
   transactionFee: number; 
   maxLimit: number;     
   minLimit: number;   
