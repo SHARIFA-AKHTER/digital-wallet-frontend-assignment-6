@@ -36,6 +36,6 @@ import { axiosBaseQuery } from "./axiosBaseQuery";
 
 export const baseApi = createApi({
   baseQuery: axiosBaseQuery(),
-  tagTypes: ["AUTH","WALLET","TRANSACTION","USER","AGENT", "ADMIN"], 
+  tagTypes: ["AUTH","OVERVIEW","SETTINGS","WALLET","TRANSACTION","USER","AGENT", "ADMIN"], 
   endpoints: () => ({}),
 });

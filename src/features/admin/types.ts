@@ -1,7 +1,7 @@
 import type { IUser } from "../auth/types";
 import type { Transaction } from "../transaction/types";
 
-
+// ================== Overview ==================
 export interface AdminOverview {
   totalUsers: number;
   totalAgents: number;
@@ -9,23 +9,16 @@ export interface AdminOverview {
   totalVolume: number;
 }
 
+// ================== User Management ==================
 export interface ManageUserRes extends IUser {
   blocked: boolean;
 }
 
+// ================== Agent Management ==================
 export interface ManageAgentRes extends IUser {
   approved: boolean;
 }
 
-export interface AdminTransaction extends Transaction {
-  fee?: number;
-}
-
-export interface SystemSettings {
-  transactionFee: number; 
-  maxLimit: number;       
-  minLimit: number;       
-}
 export interface IAgent {
   _id: string;
   name: string;
@@ -43,4 +36,15 @@ export interface IAgentListResponse {
     page: number;
     limit: number;
   };
+}
+
+// ================== Transactions ==================
+export interface AdminTransaction extends Omit<Transaction, "fee"> {
+  fee?: number;
+}
+// ================== System Settings ==================
+export interface SystemSettings {
+  transactionFee: number; 
+  maxLimit: number;     
+  minLimit: number;   
 }

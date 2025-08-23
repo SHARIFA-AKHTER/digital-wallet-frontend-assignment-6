@@ -21,6 +21,7 @@ import TransactionList from "@/transactions/TransactionList";
 import Profile from "@/pages/public/Profile";
 import AgentDashboard from "@/dashboard/AgentDashboard";
 import AgentCommission from "@/features/agent/AgentCommission";
+import AdminDashboard from "@/dashboard/AdminDashboard";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -72,9 +73,28 @@ const AppRoutes = () => {
         <Route index element={<AgentDashboard />} />
          <Route path="wallet" element={<WalletPage />} />
         <Route path="transactions" element={<TransactionList />} />
+          <Route path="send-money" element={<SendMoneyPage />} />
          <Route path="agent-commission" element={<AgentCommission />} />
         <Route path="profile" element={<Profile />} />
        
+      </Route>
+         {/* 🔒 Admin DASHBOARD */}
+      <Route
+        path="/dashboard/admin"
+        element={
+          <PrivateRoute>
+            <RoleGuard allowedRoles={["ADMIN"]}>
+              <DashboardLayout />
+            </RoleGuard>
+          </PrivateRoute>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="users" element={<ManageUsers />} />
+        <Route path="agents" element={<ManageAgents />} />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="settings" element={<AdminSettings />} />
+        <Route path="profile" element={<AdminProfile />} />
       </Route>
     </Routes>
   );
