@@ -24,7 +24,7 @@ export interface TransactionFilters {
   toDate?: string;
   minAmount?: number;
   maxAmount?: number;
-  q?: string; // search query
+  q?: string; 
 }
 
 export interface PaginatedRes<T> {
@@ -36,12 +36,15 @@ export interface PaginatedRes<T> {
   };
 }
 export interface ITransaction {
-  toUser: string;
+  commission: number;
+ toUser: string;
   fromUser: string;
   _id: string;
-  type: "add-money" | "withdraw" | "send-money";
+ type: 'add' | 'withdraw' | 'send' | 'receive' | 'cashIn' | 'cashOut'| string;
+
   amount: number;
-  status: "pending" | "success" | "failed";
+  fee: number;
+  status: "pending" | "completed" | "reversed"| string;
   sender?: string;
   receiver?: string;
   createdAt: string;

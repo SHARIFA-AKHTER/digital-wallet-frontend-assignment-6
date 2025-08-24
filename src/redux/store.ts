@@ -12,7 +12,7 @@ import  authReducer  from '@/features/auth/auth.slice';
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    auth: authReducer,  // <-- register auth slice here
+    auth: authReducer, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

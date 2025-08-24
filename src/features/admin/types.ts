@@ -1,3 +1,4 @@
+import type { Key } from "readline";
 import type { IUser } from "../auth/types";
 import type { Transaction } from "../transaction/types";
 
@@ -11,6 +12,7 @@ export interface AdminOverview {
 
 // ================== User Management ==================
 export interface ManageUserRes extends IUser {
+  _id: Key | null | undefined;
   blocked: boolean;
 }
 

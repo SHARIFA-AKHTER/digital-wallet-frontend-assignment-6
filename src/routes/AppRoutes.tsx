@@ -25,6 +25,8 @@ import AdminDashboard from "@/dashboard/AdminDashboard";
 import ManageUsers from "@/features/admin/component/ManageUsers";
 import ManageAgents from "@/features/admin/component/ManageAgents";
 import Transactions from "@/features/admin/component/Transactions";
+import AdminSettings from "@/features/admin/component/AdminSettings";
+import AdminProfile from "@/features/admin/component/AdminProfile";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -46,7 +48,7 @@ const AppRoutes = () => {
         path="/dashboard/user"
         element={
           <PrivateRoute>
-            <RoleGuard allowedRoles={["USER", "ADMIN", "AGENT"]}>
+            <RoleGuard allowedRoles={["USER"]}>
               <DashboardLayout />
             </RoleGuard>
           </PrivateRoute>

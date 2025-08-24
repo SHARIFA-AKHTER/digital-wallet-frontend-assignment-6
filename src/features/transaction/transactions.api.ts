@@ -59,13 +59,15 @@
 // } = transactionApi;
 
 import { baseApi } from "@/redux/api/baseApi";
-import type { Transaction } from "./types";
+import type { ITransaction, Transaction } from "./types";
 
 export const transactionApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getTransactions: build.query<Transaction[], void>({
-      query: () => "/transactions",
+    getTransactions: build.query<ITransaction[], void>({
+      query: () => "/transactions/me",
+        transformResponse: (response: any) => response.data,  
       providesTags: ["TRANSACTION"],
+      
     }),
 
     deposit: build.mutation<{ success: boolean; balance: number }, { amount: number }>({

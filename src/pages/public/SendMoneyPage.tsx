@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/pages/dashboard/SendMoneyPage.tsx
 import { useState } from "react";
 import { useSendMoneyMutation, useGetMyWalletQuery } from "@/features/wallet/wallet.api";
@@ -5,7 +7,7 @@ import { useAuth } from "@/Context/AuthContext";
 import { toast } from "sonner";
 
 export default function SendMoneyPage() {
-  const { user } = useAuth();
+  const {  user: _user } = useAuth();
   const { data: walletData, isLoading: walletLoading } = useGetMyWalletQuery();
   const [sendMoney, { isLoading }] = useSendMoneyMutation();
 
