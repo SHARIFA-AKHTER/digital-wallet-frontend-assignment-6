@@ -4,7 +4,6 @@ import { toast } from "sonner";
 
 export default function Profile() {
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState(""); // যদি phone থাকে
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +21,6 @@ export default function Profile() {
 
         const profile = res.data.data;
         setName(profile.name || "");
-        setPhone(profile.phone || "");
       } catch (err) {
         console.error("Failed to fetch profile", err);
       }
@@ -41,7 +39,7 @@ export default function Profile() {
     try {
       const res = await axios.put(
         "http://localhost:3000/api/v1/users/update-profile",
-        { name, phone, password },
+        { name, password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -56,7 +54,6 @@ export default function Profile() {
         user: {
           ...authUser.user,
           name: updatedProfile.name,
-          phone: updatedProfile.phone,
         },
       };
       localStorage.setItem("authUser", JSON.stringify(newAuthUser));
@@ -77,12 +74,6 @@ export default function Profile() {
           onChange={(e) => setName(e.target.value)}
           className="border p-2 rounded"
           placeholder="Full Name"
-        />
-        <input
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="border p-2 rounded"
-          placeholder="Phone Number"
         />
         <input
           type="password"

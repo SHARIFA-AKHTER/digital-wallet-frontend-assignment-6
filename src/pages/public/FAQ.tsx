@@ -1,5 +1,5 @@
-// src/pages/public/FAQ.tsx
-import Card from "@/components/ui/Card";
+
+import { Card } from "@/components/ui/Card";
 import { useState } from "react";
 
 

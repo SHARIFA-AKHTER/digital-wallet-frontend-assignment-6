@@ -1,8 +1,12 @@
 // src/pages/public/Home.tsx
 
 import { Button } from "@/components/ui/button"; // Shadcn button
-import Card from "@/components/ui/Card";
-   // Shadcn card
+import { Card } from "@/components/ui/Card";
+import About from "./About";
+import Features from "./Features";
+import Pricing from "./Pricing";
+
+
 
 const features = [
   { title: "Fast Transactions", description: "Send and receive money instantly." },
@@ -32,38 +36,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">Our Features</h2>
-          <p className="text-gray-600 mt-4 text-base sm:text-lg lg:text-xl">
-            Designed to make your digital transactions faster and safer.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto">
-          {features.map((feature, idx) => (
-            <Card key={idx} className="p-6 hover:shadow-lg transition">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-700 text-sm sm:text-base">{feature.description}</p>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <About></About>
+      <Features></Features>
+      <Pricing></Pricing>
 
-      {/* CTA Section */}
-      <section className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
-            Ready to start using Digital Wallet?
-          </h2>
-          <p className="text-gray-700 text-base sm:text-lg lg:text-xl">
-            Join thousands of users who trust our platform for fast, secure, and easy digital transactions.
-          </p>
-          <Button className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-lg">
-            Create Account
-          </Button>
-        </div>
-      </section>
     </div>
   );
 };

@@ -1,48 +1,93 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Card, CardContent } from "@/components/ui/Card";
+
+interface IFeature {
+  _id: string;
+  title: string;
+  description: string;
+}
+
+interface ITeamMember {
+  _id: string;
+  name: string;
+  role: string;
+  photo: string;
+}
+
+interface IAboutData {
+  _id: string;
+  title: string;
+  features: IFeature[];
+  team: ITeamMember[];
+}
+
 const About = () => {
+  const [data, setData] = useState<IAboutData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/v1/about"); 
+        setData(res.data.data);
+      } catch (error) {
+        console.error("Failed to fetch about data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAbout();
+  }, []);
+
+  if (loading) return <p className="text-center py-6">Loading...</p>;
+
+  if (!data) return <p className="text-center py-6">No data available.</p>;
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
       {/* Title */}
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-center">
-        About Digital Wallet
+        {data.title}
       </h1>
 
-      {/* Intro */}
-      <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
-        Our <span className="font-semibold">Digital Wallet</span> platform
-        is designed to make your financial transactions effortless and secure. 
-        With roles for <span className="font-semibold">Users, Agents,</span> and 
-        <span className="font-semibold"> Admins</span>, we provide a complete solution 
-        for online money management.
-      </p>
-
       {/* Features */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div className="p-6 rounded-2xl shadow-md bg-white">
-          <h3 className="text-xl font-semibold mb-3">💳 Store Money Securely</h3>
-          <p className="text-gray-600">
-            Safely keep your funds with our advanced encryption and authentication system.
-          </p>
+      {data.features && data.features.length > 0 ? (
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {data.features.map((feature) => (
+            <Card key={feature._id}>
+              <CardContent className="p-4">
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        <div className="p-6 rounded-2xl shadow-md bg-white">
-          <h3 className="text-xl font-semibold mb-3">⚡ Fast Transactions</h3>
-          <p className="text-gray-600">
-            Add, withdraw, or send money instantly with our seamless transaction process.
-          </p>
-        </div>
-        <div className="p-6 rounded-2xl shadow-md bg-white">
-          <h3 className="text-xl font-semibold mb-3">🛡️ Role-Based Access</h3>
-          <p className="text-gray-600">
-            Different roles for Users, Agents, and Admins ensure smooth and secure operations.
-          </p>
-        </div>
-      </div>
+      ) : (
+        <p className="text-gray-500 text-center py-4">No features available.</p>
+      )}
 
-      {/* Closing */}
-      <p className="text-base sm:text-lg lg:text-xl text-gray-700 mt-10 text-center max-w-3xl mx-auto">
-        We prioritize <span className="font-semibold">security, speed,</span> and 
-        <span className="font-semibold"> ease-of-use</span>, ensuring all your transactions are 
-        fast, safe, and traceable.
-      </p>
+      {/* Team */}
+      <h2 className="text-2xl font-bold mt-16 mb-6 text-center">Our Team</h2>
+      {data.team && data.team.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.team.map((member) => (
+            <Card key={member._id} className="flex items-center space-x-4 p-4">
+              <img
+                src={member.photo}
+                alt={member.name}
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <h3 className="text-lg font-semibold">{member.name}</h3>
+                <p className="text-gray-600">{member.role}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 text-center py-4">No team members available.</p>
+      )}
     </section>
   );
 };

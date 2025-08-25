@@ -1,16 +1,78 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { useGetUsersQuery, useToggleUserStatusMutation } from "../admin.api";
 
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  isActive: string;
+}
 
-export default function ManageUsers() {
-  const { data: users, isLoading, error } = useGetUsersQuery();
-  const [toggleUserStatus] = useToggleUserStatusMutation();
+const ManageUsers = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  console.log("Users in Component:", users);
+  // fetch users
+  const fetchUsers = async () => {
+    const storedUser = localStorage.getItem("authUser");
+    if (!storedUser) {
+      console.log("❌ No user found in localStorage");
+      setLoading(false);
+      return;
+    }
 
-  if (isLoading) return <p>Loading users...</p>;
-  if (error) return <p className="text-red-500">Failed to load users</p>;
+    const { token } = JSON.parse(storedUser);
+
+    try {
+      const res = await axios.get("http://localhost:3000/api/v1/admin/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUsers(res.data?.data || []);
+    } catch (err) {
+      console.error("❌ Failed to fetch users:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // toggle user status
+  const toggleUserStatus = async (userId: string) => {
+    const storedUser = localStorage.getItem("authUser");
+    if (!storedUser) return;
+
+    const { token } = JSON.parse(storedUser);
+
+    try {
+      await axios.patch(
+        `http://localhost:3000/api/v1/admin/users/${userId}/status`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // refresh user list after toggle
+      fetchUsers();
+    } catch (err) {
+      console.error("❌ Failed to toggle user status:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  if (loading) return <p>Loading users...</p>;
+  if (!users.length) return <p>No users found.</p>;
 
   return (
     <div>
@@ -26,7 +88,7 @@ export default function ManageUsers() {
           </tr>
         </thead>
         <tbody>
-          {users?.map((u: any) => (
+          {users.map((u) => (
             <tr key={u._id}>
               <td className="border p-2">{u.name}</td>
               <td className="border p-2">{u.email}</td>
@@ -43,6 +105,6 @@ export default function ManageUsers() {
       </table>
     </div>
   );
-}
+};
 
-
+export default ManageUsers;

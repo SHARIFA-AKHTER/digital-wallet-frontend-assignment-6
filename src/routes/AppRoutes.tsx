@@ -24,7 +24,6 @@ import AgentCommission from "@/features/agent/AgentCommission";
 import AdminDashboard from "@/dashboard/AdminDashboard";
 import ManageUsers from "@/features/admin/component/ManageUsers";
 import ManageAgents from "@/features/admin/component/ManageAgents";
-import Transactions from "@/features/admin/component/Transactions";
 import AdminSettings from "@/features/admin/component/AdminSettings";
 import AdminProfile from "@/features/admin/component/AdminProfile";
 const AppRoutes = () => {
@@ -97,7 +96,7 @@ const AppRoutes = () => {
         <Route index element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="agents" element={<ManageAgents />} />
-        <Route path="transactions" element={<Transactions />} />
+        <Route path="transactions" element={<TransactionList />} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="profile" element={<AdminProfile />} />
       </Route>

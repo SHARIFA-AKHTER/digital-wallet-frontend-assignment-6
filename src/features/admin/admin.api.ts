@@ -17,8 +17,8 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     toggleUserStatus: build.mutation<ManageUserRes, string>({
-      query: (id) => ({
-        url: `/admin/users/${id}/toggle`,
+      query: (userId) => ({
+        url: `/admin/users/${userId}/toggle`,
         method: "PATCH",
       }),
       invalidatesTags: ["USER"],
@@ -30,8 +30,8 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     toggleAgentStatus: build.mutation<IAgent, string>({
-      query: (id) => ({
-        url: `/admin/agents/${id}/toggle`,
+      query: (userId) => ({
+        url: `/admin/agents/${userId}/toggle`,
         method: "PATCH",
       }),
       invalidatesTags: ["AGENT"],

@@ -1,27 +1,56 @@
 
-const features = [
-  { title: "Fast Transactions", description: "Send and receive money instantly." },
-  { title: "Secure Wallet", description: "All your funds are protected with encryption." },
-  { title: "Multi-role Access", description: "User, Agent, and Admin dashboards." },
-  { title: "Transaction History", description: "Track all transactions easily." },
-];
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Card, CardContent } from "@/components/ui/Card";
+
+
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+}
 
 const Features = () => {
+  const [features, setFeatures] = useState<Feature[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatures = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/v1/about");
+        setFeatures(res.data.data.features || []);
+      } catch (err) {
+        console.error("Failed to fetch features:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeatures();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-6 text-gray-600">Loading features...</div>;
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-10">Features</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
-        {features.map((feature, idx) => (
-          <div
-            key={idx}
-            className="p-6 sm:p-8 border rounded-lg shadow hover:shadow-lg transition"
-          >
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2">{feature.title}</h2>
-            <p className="text-gray-700 text-sm sm:text-base lg:text-lg">{feature.description}</p>
-          </div>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-10 text-center">
+        Features of Digital Wallet
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {features.map((feature, i) => (
+          <Card key={i} className="p-6 shadow-md rounded-2xl hover:shadow-lg transition">
+            <CardContent>
+              <div className="text-4xl mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

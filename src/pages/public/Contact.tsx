@@ -1,60 +1,73 @@
-// src/pages/public/Contact.tsx
-import React, { useState } from "react";
+import { useState, type SetStateAction } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", form);
-    alert("Message sent!");
-    setForm({ name: "", email: "", message: "" });
+    setLoading(true);
+
+    // Fake submission delay
+    setTimeout(() => {
+      toast.success("Message sent successfully!");
+      setName("");
+      setEmail("");
+      setMessage("");
+      setLoading(false);
+    }, 1000);
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">Contact Us</h1>
+    <section className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
+      <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
+      <p className="text-gray-700 mb-8 text-center">
+        Have questions or feedback? Send us a message!
+      </p>
+
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Your Name"
-          className="w-full p-3 sm:p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Your Email"
-          className="w-full p-3 sm:p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-          required
-        />
-        <textarea
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          placeholder="Your Message"
-          rows={5}
-          className="w-full p-3 sm:p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-          required
-        ></textarea>
-        <button
-          type="submit"
-          className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition text-sm sm:text-base"
-        >
-          Send Message
-        </button>
+        <div>
+          <label className="block mb-1 font-semibold">Name</label>
+          <Input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-semibold">Email</label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-semibold">Message</label>
+          <Textarea
+            value={message}
+            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setMessage(e.target.value)}
+            required
+          />
+        </div>
+
+        <Button type="submit" disabled={loading}>
+          {loading ? "Sending..." : "Send Message"}
+        </Button>
       </form>
-    </div>
+    </section>
   );
 };
 
 export default Contact;
+
