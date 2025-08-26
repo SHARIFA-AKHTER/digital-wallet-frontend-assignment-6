@@ -12,6 +12,7 @@ export interface AdminOverview {
 
 // ================== User Management ==================
 export interface ManageUserRes extends IUser {
+  isActive: ReactNode;
   _id: Key | null | undefined;
   blocked: boolean;
 }

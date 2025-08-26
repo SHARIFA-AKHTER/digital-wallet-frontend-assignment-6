@@ -69,6 +69,12 @@ export const transactionApi = baseApi.injectEndpoints({
       providesTags: ["TRANSACTION"],
       
     }),
+    Transactions: build.query<ITransaction[], void>({
+      query: () => "/transactions",
+        transformResponse: (response: any) => response.data,  
+      providesTags: ["TRANSACTION"],
+      
+    }),
 
     deposit: build.mutation<{ success: boolean; balance: number }, { amount: number }>({
       query: (body) => ({

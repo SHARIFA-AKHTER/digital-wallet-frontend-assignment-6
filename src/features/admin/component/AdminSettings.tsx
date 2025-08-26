@@ -1,78 +1,95 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React, { useState, useEffect } from "react";
-
+import axiosInstance from "@/lib/axios";
 import { toast } from "sonner";
-import { useGetSettingsQuery, useUpdateSettingsMutation } from "../admin.api";
+
+interface ISettings {
+  transactionFee: number;
+  maxLimit: number;
+  minLimit: number;
+}
 
 const AdminSettings: React.FC = () => {
-  const { data, isLoading, isError } = useGetSettingsQuery();
-  const [updateSettings] = useUpdateSettingsMutation();
+  const [settings, setSettings] = useState<ISettings>({
+    transactionFee: 0,
+    maxLimit: 0,
+    minLimit: 0,
+  });
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [transactionFee, setTransactionFee] = useState<number>(0);
-  const [maxLimit, setMaxLimit] = useState<number>(0);
-  const [minLimit, setMinLimit] = useState<number>(0);
+  // Fetch settings from server
+  const fetchSettings = async () => {
+    try {
+      const res = await axiosInstance.get("/admin/settings");
+      setSettings({
+        transactionFee: res.data.data?.transactionFee || 0,
+        maxLimit: res.data.data?.maxLimit || 0,
+        minLimit: res.data.data?.minLimit || 0,
+      });
+    } catch (err: any) {
+      console.error("❌ Failed to fetch settings:", err);
+      toast.error(err?.response?.data?.message || "Failed to fetch settings");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (data?.success) {
-      setTransactionFee(data.data.transactionFee);
-      setMaxLimit(data.data.maxLimit);
-      setMinLimit(data.data.minLimit);
-    }
-  }, [data]);
+    fetchSettings();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSettings((prev) => ({ ...prev, [name]: Number(value) }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateSettings({
-          transactionFee, maxLimit, minLimit,
-          data: undefined
-      }).unwrap();
+      // PATCH request to /admin/settings-update
+      await axiosInstance.patch("/admin/settings-update", settings);
       toast.success("Settings updated successfully!");
     } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to update settings");
+      console.error("❌ Failed to update settings:", err);
+      toast.error(err?.response?.data?.message || "Failed to update settings");
     }
   };
 
-  if (isLoading) return <p>Loading settings...</p>;
-  if (isError) return <p>Failed to load settings</p>;
+  if (loading) return <p>Loading settings...</p>;
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-6">
-      <h2 className="text-xl font-semibold mb-4 text-indigo-600">
-        Admin Settings
-      </h2>
+      <h2 className="text-xl font-semibold mb-4 text-indigo-600">Admin Settings</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-medium">Transaction Fee (%)</label>
           <input
             type="number"
-            value={transactionFee}
-            onChange={(e) => setTransactionFee(Number(e.target.value))}
+            name="transactionFee"
+            value={settings.transactionFee}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium">
-            Maximum Transaction Limit
-          </label>
+          <label className="block mb-1 font-medium">Maximum Transaction Limit</label>
           <input
             type="number"
-            value={maxLimit}
-            onChange={(e) => setMaxLimit(Number(e.target.value))}
+            name="maxLimit"
+            value={settings.maxLimit}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium">
-            Minimum Transaction Limit
-          </label>
+          <label className="block mb-1 font-medium">Minimum Transaction Limit</label>
           <input
             type="number"
-            value={minLimit}
-            onChange={(e) => setMinLimit(Number(e.target.value))}
+            name="minLimit"
+            value={settings.minLimit}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />

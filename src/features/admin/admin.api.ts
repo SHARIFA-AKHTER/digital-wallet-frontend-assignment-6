@@ -1,18 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import { baseApi } from "@/redux/api/baseApi";
-import type { AdminOverview, ManageUserRes, IAgent, AdminTransaction, SystemSettings } from "./types";
+import type {
+  AdminOverview,
+  ManageUserRes,
+  IAgent,
+  AdminTransaction,
+  SystemSettings,
+} from "./types";
 
 export const adminApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    // Overview
     getOverview: build.query<AdminOverview, void>({
-      query: () => "/admin/overview",
+      query: () => ({
+        url: "/admin/overview",
+        method: "GET",
+      }),
       providesTags: ["OVERVIEW"],
     }),
 
+    // Users
     getUsers: build.query<ManageUserRes[], void>({
-      query: () => "/admin/users",
+      query: () => ({
+        url: "/admin/users",
+        method: "GET",
+      }),
       providesTags: ["USER"],
     }),
 
@@ -24,8 +37,12 @@ export const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["USER"],
     }),
 
+    // Agents
     getAgents: build.query<IAgent[], void>({
-      query: () => "/admin/agents",
+      query: () => ({
+        url: "/admin/agents",
+        method: "GET",
+      }),
       providesTags: ["AGENT"],
     }),
 
@@ -37,29 +54,41 @@ export const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["AGENT"],
     }),
 
+    // Transactions
     getTransactions: build.query<AdminTransaction[], void>({
-      query: () => "/admin/transactions",
+      query: () => ({
+        url: "/admin/transactions",
+        method: "GET",
+      }),
       providesTags: ["TRANSACTION"],
     }),
 
+
     getSettings: build.query<SystemSettings, void>({
-      query: () => "/admin/settings",
+      query: () => ({
+        url: "/admin/settings",
+        method: "GET",
+      }),
       providesTags: ["SETTINGS"],
     }),
 
     updateSettings: build.mutation<SystemSettings, SystemSettings>({
       query: (body) => ({
-        url: "/admin/settings",
+        url: "/admin/settings-update",
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["ADMIN"],
+      invalidatesTags: ["SETTINGS"], 
     }),
 
+    // Profile
     getProfile: build.query<any, void>({
-      query: () => "/admin/profile",
+      query: () => ({
+        url: "/admin/profile",
+        method: "GET",
+      }),
     }),
-    
+
     updateProfile: build.mutation<any, any>({
       query: (body) => ({
         url: "/admin/profile",

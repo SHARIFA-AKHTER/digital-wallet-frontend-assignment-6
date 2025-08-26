@@ -1,41 +1,53 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import { Card } from "@/components/ui/Card";
-import { useState } from "react";
-
-
-const faqs = [
-  { question: "How do I create an account?", answer: "Click on 'Register' and fill in your details to create an account." },
-  { question: "Is my money safe?", answer: "Yes, we use bank-grade encryption and multi-factor authentication." },
-  { question: "Can I transfer money to other wallets?", answer: "Absolutely! You can send and receive money instantly to other users." },
-  { question: "What if I forget my password?", answer: "Use the 'Forgot Password' feature to reset your password via email." },
-];
+interface IFaq {
+  _id: string;
+  question: string;
+  answer: string;
+}
 
 const FAQ = () => {
+  const [faqs, setFaqs] = useState<IFaq[]>([]);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggle = (index: number) => {
+  useEffect(() => {
+    const fetchFAQs = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/v1/faq");
+        setFaqs(res.data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchFAQs();
+  }, []);
+
+  const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-12">Frequently Asked Questions</h1>
+    <section className="max-w-3xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6 text-center">FAQs</h1>
       <div className="space-y-4">
-        {faqs.map((faq, idx) => (
-          <Card
-            key={idx}
-            className="p-4 sm:p-6 hover:shadow-lg transition cursor-pointer"
-            onClick={() => toggle(idx)}
-          >
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg sm:text-xl font-semibold">{faq.question}</h2>
-              <span className="text-blue-600 text-2xl">{openIndex === idx ? "-" : "+"}</span>
-            </div>
-            {openIndex === idx && <p className="mt-2 text-gray-700 text-sm sm:text-base">{faq.answer}</p>}
-          </Card>
+        {faqs.map((faq, index) => (
+          <div key={faq._id} className="border rounded p-4 cursor-pointer">
+            <h2
+              onClick={() => toggleFAQ(index)}
+              className="text-lg font-semibold flex justify-between items-center"
+            >
+              {faq.question}
+              <span>{openIndex === index ? "−" : "+"}</span>
+            </h2>
+            {openIndex === index && (
+              <p className="mt-2 text-gray-600">{faq.answer}</p>
+            )}
+          </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

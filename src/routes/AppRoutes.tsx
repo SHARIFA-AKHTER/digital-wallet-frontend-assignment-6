@@ -26,6 +26,10 @@ import ManageUsers from "@/features/admin/component/ManageUsers";
 import ManageAgents from "@/features/admin/component/ManageAgents";
 import AdminSettings from "@/features/admin/component/AdminSettings";
 import AdminProfile from "@/features/admin/component/AdminProfile";
+import Transactions from "@/features/admin/component/Transactions";
+
+
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -96,7 +100,7 @@ const AppRoutes = () => {
         <Route index element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="agents" element={<ManageAgents />} />
-        <Route path="transactions" element={<TransactionList />} />
+        <Route path="transactions" element={<Transactions/>} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="profile" element={<AdminProfile />} />
       </Route>

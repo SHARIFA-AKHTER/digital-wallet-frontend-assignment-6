@@ -1,7 +1,5 @@
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 
 interface IUser {
@@ -18,22 +16,8 @@ const ManageUsers = () => {
 
   // fetch users
   const fetchUsers = async () => {
-    const storedUser = localStorage.getItem("authUser");
-    if (!storedUser) {
-      console.log("❌ No user found in localStorage");
-      setLoading(false);
-      return;
-    }
-
-    const { token } = JSON.parse(storedUser);
-
     try {
-      const res = await axios.get("http://localhost:3000/api/v1/admin/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const res = await axiosInstance.get("/admin/users");
       setUsers(res.data?.data || []);
     } catch (err) {
       console.error("❌ Failed to fetch users:", err);
@@ -44,23 +28,8 @@ const ManageUsers = () => {
 
   // toggle user status
   const toggleUserStatus = async (userId: string) => {
-    const storedUser = localStorage.getItem("authUser");
-    if (!storedUser) return;
-
-    const { token } = JSON.parse(storedUser);
-
     try {
-      await axios.patch(
-        `http://localhost:3000/api/v1/admin/users/${userId}/status`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // refresh user list after toggle
+      await axiosInstance.patch(`/admin/users/${userId}/toggle`);
       fetchUsers();
     } catch (err) {
       console.error("❌ Failed to toggle user status:", err);
@@ -71,38 +40,74 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
-  if (loading) return <p>Loading users...</p>;
-  if (!users.length) return <p>No users found.</p>;
+  if (loading) return <p className="text-center py-6">Loading users...</p>;
+  if (!users.length) return <p className="text-center py-6">No users found.</p>;
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Manage Users</h2>
-      <table className="w-full border">
-        <thead>
-          <tr>
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Role</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u._id}>
-              <td className="border p-2">{u.name}</td>
-              <td className="border p-2">{u.email}</td>
-              <td className="border p-2">{u.role}</td>
-              <td className="border p-2">{u.isActive}</td>
-              <td className="border p-2">
-                <Button onClick={() => toggleUserStatus(u._id)}>
-                  {u.isActive === "ACTIVE" ? "Block" : "Unblock"}
-                </Button>
-              </td>
+    <div className="p-4 md:p-6 lg:p-8">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center md:text-left">
+        Manage Users
+      </h2>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full border divide-y divide-gray-200 rounded-lg shadow-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-3 py-2  text-left text-sm md:text-base font-medium text-gray-700">
+                Name
+              </th>
+              <th className="px-3 hidden py-2  md:table-cell  text-left text-sm md:text-base font-medium text-gray-700">
+                Email
+              </th>
+              <th className="px-3 hidden  py-2  md:table-cell  text-left text-sm md:text-base font-medium text-gray-700">
+                Role
+              </th>
+              <th className="px-3 hidden  md:table-cell  py-2 text-left text-sm md:text-base font-medium text-gray-700">
+                Status
+              </th>
+              <th className="px-3  py-2 text-center text-sm md:text-base font-medium text-gray-700">
+                Action
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            {users.map((u) => (
+              <tr key={u._id} className="hover:bg-gray-50 transition">
+                <td className="px-3 py-2 text-sm md:text-base">{u.name}</td>
+                <td className="px-3 py-2 hidden md:table-cell text-sm md:text-base">
+                  {u.email}
+                </td>
+                <td className="px-3 py-2 hidden md:table-cell text-sm md:text-base">
+                  {u.role}
+                </td>
+                <td className="px-3 py-1 hidden  md:table-cell  text-sm md:text-base">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs md:text-sm font-semibold ${
+                      u.isActive === "ACTIVE"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {u.isActive}
+                  </span>
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <Button
+                    size="sm"
+                    variant={
+                      u.isActive === "ACTIVE" ? "destructive" : "default"
+                    }
+                    onClick={() => toggleUserStatus(u._id)}
+                  >
+                    {u.isActive === "ACTIVE" ? "Block" : "Unblock"}
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

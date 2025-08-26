@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/Card";
 import About from "./About";
 import Features from "./Features";
 import Pricing from "./Pricing";
+import FAQ from "./FAQ";
+import Contact from "./Contact";
 
 
 
@@ -39,6 +41,8 @@ const Home = () => {
       <About></About>
       <Features></Features>
       <Pricing></Pricing>
+      <Contact></Contact>
+      <FAQ></FAQ>
 
     </div>
   );

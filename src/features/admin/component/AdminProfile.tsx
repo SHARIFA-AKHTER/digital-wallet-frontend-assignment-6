@@ -1,37 +1,58 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React, { useState, useEffect } from "react";
+import axiosInstance from "@/lib/axios";
 import { toast } from "sonner";
-import { useGetProfileQuery, useUpdateProfileMutation } from "../admin.api";
+
+interface IProfile {
+  name: string;
+  email: string;
+}
 
 const AdminProfile: React.FC = () => {
-  const { data, isLoading, isError } = useGetProfileQuery();
-  const [updateProfile] = useUpdateProfileMutation();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [profile, setProfile] = useState<IProfile>({ name: "", email: "" });
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Fetch profile from server
+  const fetchProfile = async () => {
+    try {
+      const res = await axiosInstance.get("/admin/profile");
+      const data = res.data.data;
+      setProfile({ name: data.name, email: data.email });
+    } catch (err: any) {
+      console.error("❌ Failed to fetch profile:", err);
+      toast.error(err?.response?.data?.message || "Failed to fetch profile");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (data?.success) {
-      setName(data.data.name);
-      setEmail(data.data.email);
-    }
-  }, [data]);
+    fetchProfile();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateProfile({ name, email, password: password || undefined }).unwrap();
+      await axiosInstance.patch("/admin/profile-update", {
+        ...profile,
+        ...(password ? { password } : {}),
+      });
       toast.success("Profile updated successfully!");
-      setPassword(""); // clear password after update
+      setPassword(""); 
+    
     } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to update profile");
+      console.error("❌ Failed to update profile:", err);
+      toast.error(err?.response?.data?.message || "Failed to update profile");
     }
   };
 
-  if (isLoading) return <p>Loading profile...</p>;
-  if (isError) return <p>Failed to load profile</p>;
+  if (loading) return <p>Loading profile...</p>;
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-6">
@@ -41,8 +62,9 @@ const AdminProfile: React.FC = () => {
           <label className="block mb-1 font-medium">Name</label>
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={profile.name}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
@@ -51,8 +73,9 @@ const AdminProfile: React.FC = () => {
           <label className="block mb-1 font-medium">Email</label>
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={profile.email}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
@@ -79,3 +102,4 @@ const AdminProfile: React.FC = () => {
 };
 
 export default AdminProfile;
+
