@@ -29,7 +29,7 @@ const About = () => {
   useEffect(() => {
     const fetchAbout = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/about"); 
+        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/v1/about"); 
         setData(res.data.data);
       } catch (error) {
         console.error("Failed to fetch about data:", error);

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Key } from "readline";
 import type { IUser } from "../auth/types";
 import type { Transaction } from "../transaction/types";
+import type { ReactNode } from "react";
 
 // ================== Overview ==================
 export interface AdminOverview {

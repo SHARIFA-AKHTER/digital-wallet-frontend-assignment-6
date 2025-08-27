@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCashInMutation, useCashOutMutation } from "@/features/user/users.api";
 import React, { useState } from "react";
 
@@ -21,10 +22,16 @@ const CashInCashOut: React.FC = () => {
 
     try {
       if (action === "cashIn") {
-        await cashIn({ userId, amount }).unwrap();
+        await cashIn({
+          userId, amount,
+          receiverId: ""
+        }).unwrap();
         toast.success("Cash-In successful!");
       } else {
-        await cashOut({ userId, amount }).unwrap();
+        await cashOut({
+          userId, amount,
+          receiverId: ""
+        }).unwrap();
         toast.success("Cash-Out successful!");
       }
       setUserId("");

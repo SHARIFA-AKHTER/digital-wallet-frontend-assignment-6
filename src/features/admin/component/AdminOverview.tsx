@@ -1,6 +1,7 @@
-import Card from "@/components/ui/Card";
+
+import { Card, CardContent } from "@/components/ui/Card";
 import { useGetOverviewQuery } from "../admin.api";
-import { CardContent } from '@/components/ui/card';
+
 
 export default function AdminOverview() {
   const { data, isLoading, error } = useGetOverviewQuery();

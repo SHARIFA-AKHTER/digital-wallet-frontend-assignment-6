@@ -1,3 +1,5 @@
+import type { Key } from "readline";
+
 export type TransactionType = "DEPOSIT" | "WITHDRAW" | "TRANSFER";
 export type TransactionStatus = "PENDING" | "SUCCESS" | "FAILED";
 
@@ -36,6 +38,7 @@ export interface PaginatedRes<T> {
   };
 }
 export interface ITransaction {
+  id: Key | null | undefined;
   commission: number;
  toUser: string;
   fromUser: string;

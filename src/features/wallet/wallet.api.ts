@@ -1,4 +1,4 @@
-// src/features/wallet/wallet.api.ts
+
 import { baseApi } from "@/redux/api/baseApi";
 import type { WalletRes, WalletActionReq } from "./types";
 

@@ -1,45 +1,3 @@
-// import { Button } from "@/components/ui/button";
-// import {
-//   useGetMyWalletQuery,
-//   useAddMoneyMutation,
-//   useWithdrawMoneyMutation,
-// } from "@/features/wallet/wallet.api";
-
-// export default function WalletPage() {
-//   const { data, isLoading, refetch } = useGetMyWalletQuery();
-//   const [addMoney] = useAddMoneyMutation();
-//   const [withdrawMoney] = useWithdrawMoneyMutation();
-
-//   if (isLoading) return <p>Loading wallet...</p>;
-
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-xl font-bold mb-4">My Wallet</h2>
-//       <p className="mb-4">💰 Balance: {data?.data.balance ?? 0}</p>
-
-//       <div className="flex gap-4">
-//         <Button
-//           onClick={async () => {
-//             await addMoney({ amount: 1000 }).unwrap();
-//             refetch();
-//           }}
-//         >
-//           Add 1000
-//         </Button>
-
-//         <Button
-//           variant="destructive"
-//           onClick={async () => {
-//             await withdrawMoney({ amount: 500 }).unwrap();
-//             refetch();
-//           }}
-//         >
-//           Withdraw 500
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
 
 import { Button } from "@/components/ui/button";
 import {
@@ -96,7 +54,11 @@ export default function WalletPage() {
           onClick={async () => {
             try {
               setLoadingAction("add");
-              await addMoney({ amount: 1000 }).unwrap();
+              await addMoney({
+               amount: 100,
+                receiverId: "abc123",
+                userId: "xyz789",
+              }).unwrap();
               toast.success("Successfully added 1000 ৳");
               refetch();
             } catch {
@@ -111,7 +73,7 @@ export default function WalletPage() {
               <Loader2 className="animate-spin w-4 h-4 mr-2" /> Adding...
             </>
           ) : (
-            "➕ Add 1000"
+            "➕ Add 100"
           )}
         </Button>
 
@@ -121,7 +83,11 @@ export default function WalletPage() {
           onClick={async () => {
             try {
               setLoadingAction("withdraw");
-              await withdrawMoney({ amount: 500 }).unwrap();
+              await withdrawMoney({
+               amount: 100,
+                receiverId: "abc123",
+                userId: "xyz789",
+              }).unwrap();
               toast.success("Successfully withdrew 500 ৳");
               refetch();
             } catch {
@@ -136,7 +102,7 @@ export default function WalletPage() {
               <Loader2 className="animate-spin w-4 h-4 mr-2" /> Withdrawing...
             </>
           ) : (
-            "➖ Withdraw 500"
+            "➖ Withdraw 50"
           )}
         </Button>
       </div>

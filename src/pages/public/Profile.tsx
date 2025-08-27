@@ -15,7 +15,7 @@ export default function Profile() {
       const { token } = JSON.parse(storedUser);
 
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/users", {
+        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/v1/users", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -38,7 +38,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/v1/users/update-profile",
+        "https://digital-wallet-api-backend.vercel.app/v1/users/update-profile",
         { name, password },
         { headers: { Authorization: `Bearer ${token}` } }
       );

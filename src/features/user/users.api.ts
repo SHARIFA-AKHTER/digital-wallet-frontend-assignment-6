@@ -2,6 +2,7 @@
 // src/features/users/users.api.ts
 
 import { baseApi } from "@/redux/api/baseApi";
+import type { WalletActionReq } from "../wallet/types";
 
 
 type UserProfile = {
@@ -37,7 +38,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
-      cashIn: build.mutation<any, { amount: number }>({
+      cashIn: build.mutation<any,WalletActionReq>({
       query: (body) => ({
         url: "/transactions/cash-in",
         method: "POST",
@@ -45,7 +46,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION", "WALLET"],
     }),
-      cashOut: build.mutation<any, { amount: number }>({
+      cashOut: build.mutation<any,WalletActionReq>({
       query: (body) => ({
         url: "/transactions/cash-out",
         method: "POST",

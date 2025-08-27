@@ -1,6 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// import { useGetTransactionsQuery } from "@/features/transaction/transactions.api";
+
+// export default function TransactionList() {
+//   const { data, isLoading, error } = useGetTransactionsQuery();
+
+//   if (isLoading) return <p>Loading...</p>;
+//   if (error) return <p>Error loading transactions</p>;
+
+//   return (
+//     <div>
+//       {data?.map((tx) => (
+//         <div key={tx.id}>
+//           <p>{tx.amount}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import type { ITransaction } from "@/features/transaction/types";
@@ -22,11 +41,14 @@ const TransactionList = () => {
       const { token } = JSON.parse(storedUser);
 
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/transactions/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.get(
+          "https://digital-wallet-api-backend.vercel.app/v1/transactions/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         setTransactions(res.data?.data || []);
       } catch (error) {
@@ -40,7 +62,11 @@ const TransactionList = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-6 text-gray-600">Loading transactions...</div>;
+    return (
+      <div className="text-center py-6 text-gray-600">
+        Loading transactions...
+      </div>
+    );
   }
 
   if (transactions.length === 0) {
@@ -70,20 +96,25 @@ const TransactionList = () => {
 
       {/* Desktop table view */}
       <div className="hidden lg:block overflow-x-auto mt-6">
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">user
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          user
           <thead className="bg-indigo-100 text-gray-800">
             <tr>
               <th className="py-3 px-5 text-left">Type</th>
               <th className="py-3 px-5 text-left">Amount</th>
               <th className="py-3 px-5 text-left">Status</th>
               <th className="py-3 px-5 text-left">Sender</th>
-
             </tr>
           </thead>
           <tbody className="text-gray-700">
             {transactions.map((txn) => (
-              <tr key={txn._id} className="border-t hover:bg-gray-50 transition">
-                <td className="py-3 px-5 capitalize">{capitalizeType(txn.type)}</td>
+              <tr
+                key={txn._id}
+                className="border-t hover:bg-gray-50 transition"
+              >
+                <td className="py-3 px-5 capitalize">
+                  {capitalizeType(txn.type)}
+                </td>
                 <td className="py-3 px-5">৳{txn.amount.toFixed(2)}</td>
                 <td className="py-3 px-5">
                   <span
@@ -99,7 +130,9 @@ const TransactionList = () => {
                   </span>
                 </td>
 
-                <td className="py-3 px-5">{new Date(txn.createdAt).toLocaleString()}</td>
+                <td className="py-3 px-5">
+                  {new Date(txn.createdAt).toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -110,7 +143,9 @@ const TransactionList = () => {
 };
 
 // Capitalize helpers
-const capitalizeType = (type: string): "Send" | "CashIn" | "CashOut" | "Withdraw" | "Add" => {
+const capitalizeType = (
+  type: string
+): "Send" | "CashIn" | "CashOut" | "Withdraw" | "Add" => {
   switch (type.toLowerCase()) {
     case "send":
       return "Send";
@@ -129,7 +164,9 @@ const capitalizeType = (type: string): "Send" | "CashIn" | "CashOut" | "Withdraw
   }
 };
 
-const capitalizeStatus = (status: string): "Pending" | "Completed" | "Reversed" => {
+const capitalizeStatus = (
+  status: string
+): "Pending" | "Completed" | "Reversed" => {
   switch (status.toLowerCase()) {
     case "pending":
       return "Pending";

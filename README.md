@@ -1,69 +1,75 @@
-# React + TypeScript + Vite
+# Digital Wallet Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive **Digital Wallet frontend** built with **React, TypeScript, Tailwind CSS**, and **ShadCN UI**. This frontend works with the Digital Wallet Backend API to provide a complete user experience for managing wallets, transactions, and user profiles.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Demo](#demo)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Folder Structure](#folder-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Authentication](#authentication)
+- [API Integration](#api-integration)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Demo
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+You can run the frontend locally to test all features. Screenshots or demo GIFs can be added here.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Features
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **User Authentication**
+  - Email/Password login
+  - Google OAuth login
+- **Dashboard**
+  - Separate dashboards for USER, AGENT, ADMIN
+  - Wallet overview
+  - Transactions history
+  - Cash-In, Cash-Out, and Commission tracking
+- **Profile Management**
+  - Update profile name, email, and avatar
+  - Soft-delete profile
+- **Responsive Design**
+  - Mobile, tablet, and desktop optimized
+- **Reusable Components**
+  - Buttons, Inputs, Forms, Cards, Tables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Technologies
+
+- **React** (v18+)
+- **TypeScript**
+- **Tailwind CSS**
+- **ShadCN UI / Radix UI**
+- **React Router DOM**
+- **React Hook Form**
+- **Zod** for schema validation
+- **Redux Toolkit / RTK Query** for state management
+- **Axios** for API requests
+- **Sonner Toasts** for notifications
+
+---
+
+## Folder Structure
+
+src/
+├── assets/ # Static images and logos
+├── components/ # Reusable UI components
+├── features/ # Redux slices and API services
+├── hooks/ # Custom hooks
+├── lib/ # Utility functions
+├── pages/ # React pages/components
+├── routes/ # Route components and layouts
+└── App.tsx # Main app component
+
+.env
+VITE_API_URL=https://digital-wallet-api-backend.vercel.app/v1
+

@@ -1,4 +1,4 @@
-
+import type { ITransactionListResponse } from "../transaction/types";
 
 export interface WalletRes {
   success: boolean;
@@ -15,6 +15,16 @@ export interface WalletRes {
 
 export interface WalletActionReq {
   amount: number;
-  to?: string; 
-    receiverId: string;
+  receiverId: string;
+  userId: string;
+   to?: string;
+}
+export interface IWallet {
+  _id: string;
+  user: string;
+  balance: number;
+  isBlocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  transactions: ITransactionListResponse[];
 }
