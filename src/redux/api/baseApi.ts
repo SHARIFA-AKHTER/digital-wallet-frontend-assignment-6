@@ -22,7 +22,7 @@
 //       return headers;
 //     },
 //   }),
-//   tagTypes: ["AUTH","WALLET","TRANSACTION","USER","AGENT", "ADMIN"],
+//   tagTypes: ["AUTH","WALLET","TRANSACTION","USER","AGENT", "ADMIN", "SETTINGS", "SETTINGS"],
 //   endpoints: () => ({}),
 // });
 
@@ -30,10 +30,11 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./axiosBaseQuery";
 
 export const baseApi = createApi({
+  
   baseQuery: axiosBaseQuery(),
   tagTypes: [
     "AUTH",
-    "OVERVIEW",
+     "SETTINGS",
     "SETTINGS",
     "WALLET",
     "TRANSACTION",

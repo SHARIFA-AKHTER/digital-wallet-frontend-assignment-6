@@ -28,7 +28,7 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/v1/pricing");
+        const res = await axios.get("http://localhost:3000/api/v1/pricing");
         setPlans(res.data.data);
       } catch (err) {
         console.error("Failed to fetch pricing plans:", err);

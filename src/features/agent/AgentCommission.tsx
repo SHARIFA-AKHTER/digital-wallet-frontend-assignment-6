@@ -20,10 +20,10 @@ const AgentCommission: React.FC = () => {
 
       try {
         const [txnRes, commRes] = await Promise.all([
-          axios.get("https://digital-wallet-api-backend.vercel.app/v1/transactions/me", {
+          axios.get("http://localhost:3000/api/v1/transactions/me", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("https://digital-wallet-api-backend.vercel.app/v1/transactions/agent-commissions", {
+          axios.get("http://localhost:3000/api/v1/transactions/agent-commissions", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

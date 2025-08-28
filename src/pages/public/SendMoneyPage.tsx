@@ -102,7 +102,10 @@ export default function SendMoneyPage() {
     }
 
     try {
-      await sendMoney({ receiverId, amount: Number(amount) }).unwrap();
+      await sendMoney({
+        receiverId, amount: Number(amount),
+        userId: ""
+      }).unwrap();
       toast.success("✅ Money sent successfully!");
       setReceiverId("");
       setAmount("");

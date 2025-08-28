@@ -71,5 +71,5 @@ src/
 └── App.tsx # Main app component
 
 .env
-VITE_API_URL=https://digital-wallet-api-backend.vercel.app/v1
+VITE_API_URL=http://localhost:3000/v1
 

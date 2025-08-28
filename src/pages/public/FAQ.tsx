@@ -14,7 +14,7 @@
 //   useEffect(() => {
 //     const fetchFAQs = async () => {
 //       try {
-//         const res = await axios.get("https://digital-wallet-api-backend.vercel.app/v1/faq");
+//         const res = await axios.get("http://localhost:3000/v1/faq");
 //         setFaqs(res.data.data);
 //       } catch (err) {
 //         console.error(err);
@@ -71,7 +71,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetchFAQs = async () => {
       try {
-        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/v1/faq");
+        const res = await axios.get("http://localhost:3000/api/v1/faq");
         setFaqs(res.data.data);
       } catch (err) {
         console.error(err);

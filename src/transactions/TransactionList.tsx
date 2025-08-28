@@ -42,7 +42,7 @@ const TransactionList = () => {
 
       try {
         const res = await axios.get(
-          "https://digital-wallet-api-backend.vercel.app/v1/transactions/me",
+          "http://localhost:3000/api/v1/transactions/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,

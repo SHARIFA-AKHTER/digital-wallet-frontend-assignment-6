@@ -4,7 +4,6 @@
 import { baseApi } from "@/redux/api/baseApi";
 import type { WalletActionReq } from "../wallet/types";
 
-
 type UserProfile = {
   id: string;
   name: string;
@@ -30,7 +29,10 @@ export const userApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
     }),
 
-    updateProfile: build.mutation<{ success: boolean; data: UserProfile }, Partial<UserProfile>>({
+    updateProfile: build.mutation<
+      { success: boolean; data: UserProfile },
+      Partial<UserProfile>
+    >({
       query: (body) => ({
         url: "/users/update-profile",
         method: "PATCH",
@@ -38,7 +40,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
-      cashIn: build.mutation<any,WalletActionReq>({
+    cashIn: build.mutation<any, WalletActionReq>({
       query: (body) => ({
         url: "/transactions/cash-in",
         method: "POST",
@@ -46,7 +48,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTION", "WALLET"],
     }),
-      cashOut: build.mutation<any,WalletActionReq>({
+    cashOut: build.mutation<any, WalletActionReq>({
       query: (body) => ({
         url: "/transactions/cash-out",
         method: "POST",
@@ -62,6 +64,6 @@ export const {
   useGetTransactionsQuery,
   useGetProfileQuery,
   useUpdateProfileMutation,
-   useCashInMutation,
-   useCashOutMutation,
+  useCashInMutation,
+  useCashOutMutation,
 } = userApi;
