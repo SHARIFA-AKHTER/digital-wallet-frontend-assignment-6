@@ -69,14 +69,14 @@ import type { ITransaction, Transaction } from "./types";
 export const transactionApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     // My Transactions
-    getTransactions: build.query<ITransaction[], void>({
-      query: () => ({
-        url: "/transactions/me",
-        method: "GET",
-      }),
-      transformResponse: (response: any) => response.data,
-      providesTags: ["TRANSACTION"],
-    }),
+    // getTransactions: build.query<ITransaction[], void>({
+    //   query: () => ({
+    //     url: "/transactions/me",
+    //     method: "GET",
+    //   }),
+    //   transformResponse: (response: any) => response.data,
+    //   providesTags: ["TRANSACTION"],
+    // }),
 
     // All Transactions (admin)
     getAllTransactions: build.query<ITransaction[], void>({
@@ -118,6 +118,10 @@ export const transactionApi = baseApi.injectEndpoints({
       invalidatesTags: ["TRANSACTION", "USER"],
     }),
 
+     getUserTransactions: build.query<any[], void>({
+      query: () => "/user/transactions",
+      providesTags: ["TRANSACTION"],
+    }),
     // Agent Commission
     getAgentCommissions: build.query<Transaction[], void>({
       query: () => ({
@@ -131,10 +135,11 @@ export const transactionApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetTransactionsQuery,
+  // useGetTransactionsQuery,
   useGetAllTransactionsQuery,
   useDepositMutation,
   useWithdrawMutation,
   useSendMoneyMutation,
   useGetAgentCommissionsQuery,
+   useGetUserTransactionsQuery,
 } = transactionApi;

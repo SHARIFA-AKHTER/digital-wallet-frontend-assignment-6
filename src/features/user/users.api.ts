@@ -3,6 +3,7 @@
 
 import { baseApi } from "@/redux/api/baseApi";
 import type { WalletActionReq } from "../wallet/types";
+import type { ITransaction } from "../transaction/types";
 
 type UserProfile = {
   id: string;
@@ -19,18 +20,28 @@ export const userApi = baseApi.injectEndpoints({
       providesTags: ["WALLET"],
     }),
 
-    getTransactions: build.query<any[], void>({
-      query: () => "/user/transactions",
+    // getUserTransactions: build.query<any[], void>({
+    //   query: () => "/user/transactions",
+    //   providesTags: ["TRANSACTION"],
+    // }),
+
+        getTransactions: build.query<ITransaction[], void>({
+      query: () => ({
+        url: "/transactions/me",
+        method: "GET",
+      }),
+      transformResponse: (response: any) => response.data,
       providesTags: ["TRANSACTION"],
     }),
-
     getProfile: build.query<UserProfile, void>({
       query: () => "/users",
       providesTags: ["USER"],
     }),
 
     updateProfile: build.mutation<
-      { success: boolean; data: UserProfile },
+      {
+        [x: string]: any; success: boolean; data: UserProfile 
+},
       Partial<UserProfile>
     >({
       query: (body) => ({
@@ -61,9 +72,10 @@ export const userApi = baseApi.injectEndpoints({
 
 export const {
   useGetWalletQuery,
-  useGetTransactionsQuery,
+  // useGetUserTransactionsQuery,
   useGetProfileQuery,
   useUpdateProfileMutation,
   useCashInMutation,
   useCashOutMutation,
+  useGetTransactionsQuery,
 } = userApi;

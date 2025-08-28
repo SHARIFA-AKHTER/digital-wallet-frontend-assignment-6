@@ -41,6 +41,7 @@ export const baseApi = createApi({
     "USER",
     "AGENT",
     "ADMIN",
+    "OVERVIEW"
   ],
   endpoints: () => ({}),
 });

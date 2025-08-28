@@ -6,6 +6,7 @@ export const walletApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getMyWallet: build.query<WalletRes, void>({
       query: () => ({ url: "/wallet/me", method: "GET" }),
+      
       providesTags: ["WALLET"],
     }),
 
