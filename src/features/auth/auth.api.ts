@@ -1,6 +1,6 @@
 
 import { baseApi } from "@/redux/api/baseApi";
-import type { LoginReq, LoginRes, MeRes, RegisterReq } from "./types";
+import type { LoginReq, LoginRes,  RegisterReq } from "./types";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -22,13 +22,13 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["AUTH"],
     }),
 
-    me: build.query<MeRes, void>({
-      query: () => ({
-        url: "/auth/me",
-        method: "GET", 
-      }),
-      providesTags: ["AUTH"],
-    }),
+    // me: build.query<MeRes, void>({
+    //   query: () => ({
+    //     url: "/auth/me",
+    //     method: "GET", 
+    //   }),
+    //   providesTags: ["AUTH"],
+    // }),
 
     logout: build.mutation<{ message: string }, void>({
       query: () => ({
@@ -44,6 +44,6 @@ export const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useMeQuery,
+  // useMeQuery,
   useLogoutMutation,
 } = authApi;

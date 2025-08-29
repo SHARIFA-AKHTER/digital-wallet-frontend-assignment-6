@@ -4,3 +4,8 @@ export interface UserProfile {
   password?: string;
   data?: string;
 }
+
+
+export type UserProfileWithPassword = UserProfile & {
+  password?: string;
+}

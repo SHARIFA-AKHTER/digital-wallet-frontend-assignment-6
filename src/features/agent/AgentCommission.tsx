@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -166,7 +167,7 @@ import { useGetAgentCommissionsQuery, useGetUserTransactionsQuery, } from "../tr
 
 
 const AgentCommission: React.FC = () => {
-  const { data: transactions = [], isLoading: loadingTx } = useGetUserTransactionsQuery();
+  const { isLoading: loadingTx } = useGetUserTransactionsQuery();
   const { data: commissions = [], isLoading: loadingComm } = useGetAgentCommissionsQuery();
 
   const loading = loadingTx || loadingComm;

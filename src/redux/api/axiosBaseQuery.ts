@@ -25,7 +25,7 @@ export const axiosBaseQuery =
         method,
         data: body,     
         params,        
-        headers, 
+        headers,
         withCredentials: true,        
       });
 

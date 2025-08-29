@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,7 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function LoginForm({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
@@ -28,36 +30,68 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
     },
   });
 
+  // const onSubmit: SubmitHandler<LoginReq> = async (data) => {
+  //   try {
+  //     const res: LoginRes = await login(data).unwrap();
+
+  //     if (res.success) {
+  //       // Save token & user info
+  //       localStorage.setItem(
+  //         "authUser",
+  //         JSON.stringify({
+  //           token: res.data.accessToken,
+  //           refreshToken: res.data.refreshToken,
+  //           user: res.data.user,
+  //         })
+  //       );
+
+  //       toast.success("✅ Logged in successfully");
+
+  //       // Role-based redirect
+  //       const role = res.data.user.role;
+  //       if (role === "USER") navigate("/dashboard/user");
+  //       else if (role === "AGENT") navigate("/dashboard/agent");
+  //       else if (role === "ADMIN") navigate("/dashboard/admin");
+  //     }
+  //   } catch (err: any) {
+  //     if (err?.data?.message === "password does not match") {
+  //       toast.error("❌ Invalid Credentials");
+  //     } else if (err?.data?.message === "User is not verified") {
+  //       toast.error("⚠️ Your account is not verified");
+  //       navigate("/verify", { state: data.email });
+  //     } else {
+  //       toast.error("❌ Login failed. Try again.");
+  //     }
+  //   }
+  // };
+
   const onSubmit: SubmitHandler<LoginReq> = async (data) => {
-    try {
-      const res: LoginRes = await login(data).unwrap();
+  try {
+    const res: LoginRes = await login(data).unwrap();
 
-      if (res.success) {
-        // Save token & user info
-        localStorage.setItem(
-          "authUser",
-          JSON.stringify({ token: res.data.accessToken, user: res.data.user })
-        );
+    if (res.success) {
+      
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify({
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
+          user: res.data.user,
+        })
+      );
 
-        toast.success("✅ Logged in successfully");
+      toast.success("✅ Logged in successfully");
 
-        // Role-based redirect
-        const role = res.data.user.role;
-        if (role === "USER") navigate("/dashboard/user");
-        else if (role === "AGENT") navigate("/dashboard/agent");
-        else if (role === "ADMIN") navigate("/dashboard/admin");
-      }
-    } catch (err: any) {
-      if (err?.data?.message === "password does not match") {
-        toast.error("❌ Invalid Credentials");
-      } else if (err?.data?.message === "User is not verified") {
-        toast.error("⚠️ Your account is not verified");
-        navigate("/verify", { state: data.email });
-      } else {
-        toast.error("❌ Login failed. Try again.");
-      }
+      // Role-based redirect
+      const role = res.data.user.role;
+      if (role === "USER") navigate("/dashboard/user");
+      else if (role === "AGENT") navigate("/dashboard/agent");
+      else if (role === "ADMIN") navigate("/dashboard/admin");
     }
-  };
+  } catch (err: any) {
+    toast.error(err?.data?.message || "❌ Login failed. Try again.");
+  }
+};
 
   return (
     <div
@@ -69,7 +103,9 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
     >
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Login to Your Account</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Login to Your Account
+        </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Enter your email and password to continue
         </p>
@@ -117,7 +153,10 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
             )}
           />
 
-          <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+          <Button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+          >
             Login
           </Button>
         </form>
@@ -137,14 +176,21 @@ export function LoginForm({ className, ...props }: React.HTMLAttributes<HTMLDivE
         variant="outline"
         className="w-full flex items-center justify-center gap-2 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
       >
-        <img src="https://i.ibb.co.com/TxJFFjsC/degital-1.jpg" alt="Google" className="w-5 h-5" />
+        <img
+          src="https://i.ibb.co.com/TxJFFjsC/degital-1.jpg"
+          alt="Google"
+          className="w-5 h-5"
+        />
         Login with Google
       </Button>
 
       {/* Register link */}
       <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
         Don&apos;t have an account?{" "}
-        <Link to="/register" className="underline text-indigo-600 dark:text-indigo-400">
+        <Link
+          to="/register"
+          className="underline text-indigo-600 dark:text-indigo-400"
+        >
           Register
         </Link>
       </p>

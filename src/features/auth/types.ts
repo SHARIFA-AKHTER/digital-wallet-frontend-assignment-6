@@ -13,6 +13,9 @@ export interface IUser {
 }
 
 export interface LoginReq {
+  user: any;
+  refreshToken: any;
+  accessToken: any;
   email: string;
   password: string;
 }

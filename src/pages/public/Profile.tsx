@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetProfileQuery, useUpdateProfileMutation } from "@/features/user/users.api";
+import type { UserProfileWithPassword } from "@/features/user/userTypes";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -16,27 +17,52 @@ export default function Profile() {
     if (profile) setName(profile.name);
   }, [profile]);
 
-  const handleUpdate = async () => {
-    try {
-      const updated = await updateProfile({ name, password }).unwrap();
-      toast.success("Profile updated successfully");
+  // const handleUpdate = async () => {
+  //   try {
+  //     const updated = await updateProfile({ name, password }).unwrap();
+  //     toast.success("Profile updated successfully");
 
-      // update localStorage
-      const authUser = JSON.parse(localStorage.getItem("authUser") || "{}");
-      const newAuthUser = {
-        ...authUser,
-        user: {
-          ...authUser.user,
-          name: updated.name,
-        },
-      };
-      localStorage.setItem("authUser", JSON.stringify(newAuthUser));
-      setPassword(""); 
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.data?.message || "Failed to update profile");
-    }
-  };
+  //     // update localStorage
+  //     const authUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+  //     const newAuthUser = {
+  //       ...authUser,
+  //       user: {
+  //         ...authUser.user,
+  //         name: updated.name,
+  //       },
+  //     };
+  //     localStorage.setItem("authUser", JSON.stringify(newAuthUser));
+  //     setPassword(""); 
+  //   } catch (err: any) {
+  //     console.error(err);
+  //     toast.error(err?.data?.message || "Failed to update profile");
+  //   }
+  // };
+
+  const handleUpdate = async () => {
+  try {
+    const payload: UserProfileWithPassword = { name, password };
+    const updated = await updateProfile(payload).unwrap();
+
+    toast.success("Profile updated successfully");
+
+    // update localStorage
+    const authUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    const newAuthUser = {
+      ...authUser,
+      user: {
+        ...authUser.user,
+        name: updated.name,
+      },
+    };
+    localStorage.setItem("authUser", JSON.stringify(newAuthUser));
+    setPassword("");
+  } catch (err: any) {
+    console.error(err);
+    toast.error(err?.data?.message || "Failed to update profile");
+  }
+};
+
 
   if (isLoading) return <p className="text-center py-6">Loading profile...</p>;
 

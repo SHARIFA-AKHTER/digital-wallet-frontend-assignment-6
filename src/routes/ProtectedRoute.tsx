@@ -46,7 +46,7 @@ interface PrivateRouteProps {
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   console.log("PrivateRoute authUser:", localStorage.getItem("authUser"));
 
-  const { isAuthenticated } = useAuth();
+  const {isAuthenticated } = useAuth();
   const location = useLocation();
 
   if (!isAuthenticated) {

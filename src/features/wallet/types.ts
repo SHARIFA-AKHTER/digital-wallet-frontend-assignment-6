@@ -16,7 +16,7 @@ export interface WalletRes {
 export interface WalletActionReq {
   amount: number;
   receiverId: string;
-  userId: string;
+  userId?: string;
    to?: string;
 }
 export interface IWallet {

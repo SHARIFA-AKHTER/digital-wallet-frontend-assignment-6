@@ -156,7 +156,7 @@ export default function SendMoneyPage() {
       toast.success("✅ Money sent successfully!");
       setReceiverId("");
       setAmount("");
-      refetch(); // refresh wallet balance
+      refetch(); 
     } catch (err: any) {
       toast.error(err.data?.message || "❌ Error sending money");
     }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -6,13 +7,15 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { toast } from "sonner";
+import axiosInstance from "@/lib/axios";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name too short"),
   email: z.string().email("Invalid email"),
   phone: z.string().min(11, "Invalid phone number"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["USER", "AGENT"], "Select a role"),
+  role: z.enum(["USER", "AGENT","ADMIN"], "Select a role"),
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -22,10 +25,35 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: RegisterFormValues) => {
-    console.log("Register Data:", data);
-    // Add toast or API call here
-  };
+  // const onSubmit = (data: RegisterFormValues) => {
+  //   console.log("Register Data:", data);
+  //   // Add toast or API call here
+  // };
+
+  const onSubmit = async (data: RegisterFormValues) => {
+  try {
+    // API call
+    const response = await axiosInstance.post("/auth/register", data, {
+      withCredentials: true, 
+    });
+
+   
+    const { accessToken, refreshToken, user } = response.data;
+
+    
+    localStorage.setItem(
+      "authUser",
+      JSON.stringify({ accessToken, refreshToken, user })
+    );
+
+    toast.success("Registered successfully!");
+
+    console.log("Registered user:", user);
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+    toast.error(error.response?.data?.message || "Registration failed");
+  }
+};
 
   return (
     <form
@@ -74,6 +102,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
           <select id="role" {...register("role")} className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800">
             <option value="USER">User</option>
             <option value="AGENT">Agent</option>
+            <option value="ADMIN">Admin</option>
           </select>
           {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
         </div>

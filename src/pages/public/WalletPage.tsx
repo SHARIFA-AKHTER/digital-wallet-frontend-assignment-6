@@ -137,9 +137,11 @@ export default function WalletPage() {
     try {
       setLoading(true);
       const { data } = await axiosInstance.get("/wallet/me");
-      setWallet(data.data); // or data depending on backend
+      console.log(data);
+      setWallet(data.data);
     } catch (err: any) {
-      toast.error(err.response?.data?.message || "Failed to fetch wallet");
+      // toast.error(err.response?.data?.message || "Failed to fetch wallet");
+       console.error("Wallet fetch error:", err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }

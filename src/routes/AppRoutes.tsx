@@ -102,7 +102,7 @@ const AppRoutes = () => {
         <Route path="agents" element={<ManageAgents />} />
         <Route path="transactions" element={<Transactions/>} />
         <Route path="settings" element={<AdminSettings />} />
-        <Route path="profile" element={<AdminProfile />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </Routes>
   );
