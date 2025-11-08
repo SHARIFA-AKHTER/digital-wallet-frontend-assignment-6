@@ -151,9 +151,9 @@ export function LoginForm({
       <Button
         onClick={() => {
           const currentPath = window.location.pathname;
-          const googleAuthURL = `https://digital-wallet-api-backend.vercel.app/api/v1/auth/google?state=${encodeURIComponent(
-            currentPath
-          )}`;
+          const googleAuthURL = `${
+            import.meta.env.VITE_API_URL
+          }/auth/google?state=${encodeURIComponent(currentPath)}`;
           window.location.href = googleAuthURL;
         }}
         variant="outline"
