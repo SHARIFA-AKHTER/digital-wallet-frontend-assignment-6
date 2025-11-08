@@ -29,7 +29,7 @@ const About = () => {
   useEffect(() => {
     const fetchAbout = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/about"); 
+        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/api/v1/about");
         setData(res.data.data);
       } catch (error) {
         console.error("Failed to fetch about data:", error);
@@ -86,11 +86,12 @@ const About = () => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-center py-4">No team members available.</p>
+        <p className="text-gray-500 text-center py-4">
+          No team members available.
+        </p>
       )}
     </section>
   );
 };
 
 export default About;
-

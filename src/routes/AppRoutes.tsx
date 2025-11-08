@@ -25,7 +25,6 @@ import AdminDashboard from "@/dashboard/AdminDashboard";
 import ManageUsers from "@/features/admin/component/ManageUsers";
 import ManageAgents from "@/features/admin/component/ManageAgents";
 import AdminSettings from "@/features/admin/component/AdminSettings";
-import AdminProfile from "@/features/admin/component/AdminProfile";
 import Transactions from "@/features/admin/component/Transactions";
 
 

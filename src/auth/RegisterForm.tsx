@@ -9,19 +9,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import axiosInstance from "@/lib/axios";
+import { useNavigate } from "react-router-dom";
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const navigate = useNavigate();
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name too short"),
   email: z.string().email("Invalid email"),
   phone: z.string().min(11, "Invalid phone number"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["USER", "AGENT","ADMIN"], "Select a role"),
+  role: z.enum(["USER", "AGENT", "ADMIN"], "Select a role"),
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormValues>({
+export function RegisterForm({
+  className,
+  ...props
+}: React.ComponentProps<"form">) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
   });
 
@@ -31,29 +41,28 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
   // };
 
   const onSubmit = async (data: RegisterFormValues) => {
-  try {
-    // API call
-    const response = await axiosInstance.post("/auth/register", data, {
-      withCredentials: true, 
-    });
+    try {
+      // API call
+      const response = await axiosInstance.post("/auth/register", data, {
+        withCredentials: true,
+      });
 
-   
-    const { accessToken, refreshToken, user } = response.data;
+      const { accessToken, refreshToken, user } = response.data;
 
-    
-    localStorage.setItem(
-      "authUser",
-      JSON.stringify({ accessToken, refreshToken, user })
-    );
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify({ accessToken, refreshToken, user })
+      );
 
-    toast.success("Registered successfully!");
+      toast.success("Registered successfully!");
 
-    console.log("Registered user:", user);
-  } catch (error: any) {
-    console.error(error.response?.data || error.message);
-    toast.error(error.response?.data?.message || "Registration failed");
-  }
-};
+      // console.log("Registered user:", user);
+      navigate("/login");
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Registration failed");
+    }
+  };
 
   return (
     <form
@@ -66,7 +75,9 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
     >
       {/* Heading */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Create an Account</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Create an Account
+        </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Fill in your details to register
         </p>
@@ -75,46 +86,90 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
       <div className="grid gap-4">
         <div className="grid gap-1">
           <Label htmlFor="name">Full Name</Label>
-          <Input id="name" type="text" placeholder="John Doe" {...register("name")} className="bg-gray-50 dark:bg-gray-800" />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            {...register("name")}
+            className="bg-gray-50 dark:bg-gray-800"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          )}
         </div>
 
         <div className="grid gap-1">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="you@example.com" {...register("email")} className="bg-gray-50 dark:bg-gray-800" />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            {...register("email")}
+            className="bg-gray-50 dark:bg-gray-800"
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="grid gap-1">
           <Label htmlFor="phone">Phone</Label>
-          <Input id="phone" type="text" placeholder="01XXXXXXXXX" {...register("phone")} className="bg-gray-50 dark:bg-gray-800" />
-          {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
+          <Input
+            id="phone"
+            type="text"
+            placeholder="01XXXXXXXXX"
+            {...register("phone")}
+            className="bg-gray-50 dark:bg-gray-800"
+          />
+          {errors.phone && (
+            <p className="text-red-500 text-sm">{errors.phone.message}</p>
+          )}
         </div>
 
         <div className="grid gap-1">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" placeholder="Password" {...register("password")} className="bg-gray-50 dark:bg-gray-800" />
-          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          <Input
+            id="password"
+            type="password"
+            placeholder="Password"
+            {...register("password")}
+            className="bg-gray-50 dark:bg-gray-800"
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
         </div>
 
         <div className="grid gap-1">
           <Label htmlFor="role">Role</Label>
-          <select id="role" {...register("role")} className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800">
+          <select
+            id="role"
+            {...register("role")}
+            className="w-full border rounded px-3 py-2 bg-gray-50 dark:bg-gray-800"
+          >
             <option value="USER">User</option>
             <option value="AGENT">Agent</option>
             <option value="ADMIN">Admin</option>
           </select>
-          {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
+          {errors.role && (
+            <p className="text-red-500 text-sm">{errors.role.message}</p>
+          )}
         </div>
 
-        <Button type="submit" className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+        <Button
+          type="submit"
+          className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white"
+        >
           Register
         </Button>
       </div>
 
       <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
         Already have an account?{" "}
-        <a href="/login" className="underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-700">
+        <a
+          href="/login"
+          className="underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-700"
+        >
           Login
         </a>
       </p>

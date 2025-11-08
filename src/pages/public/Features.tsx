@@ -17,7 +17,7 @@ const Features = () => {
   useEffect(() => {
     const fetchFeatures = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/about");
+        const res = await axios.get("https://digital-wallet-api-backend.vercel.app/api/v1/about");
         setFeatures(res.data.data.features || []);
       } catch (err) {
         console.error("Failed to fetch features:", err);

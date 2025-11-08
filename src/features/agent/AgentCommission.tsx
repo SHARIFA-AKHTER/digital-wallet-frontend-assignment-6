@@ -23,10 +23,10 @@
 
 //       try {
 //         const [txnRes, commRes] = await Promise.all([
-//           axios.get("http://localhost:3000/api/v1/transactions/me", {
+//           axios.get("https://digital-wallet-api-backend.vercel.app/api/v1/transactions/me", {
 //             headers: { Authorization: `Bearer ${token}` },
 //           }),
-//           axios.get("http://localhost:3000/api/v1/transactions/agent-commissions", {
+//           axios.get("https://digital-wallet-api-backend.vercel.app/api/v1/transactions/agent-commissions", {
 //             headers: { Authorization: `Bearer ${token}` },
 //           }),
 //         ]);
